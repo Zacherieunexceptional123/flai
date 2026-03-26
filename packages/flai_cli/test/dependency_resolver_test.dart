@@ -1,4 +1,3 @@
-import 'package:flai_cli/brick_registry.dart';
 import 'package:flai_cli/dependency_resolver.dart';
 import 'package:test/test.dart';
 
