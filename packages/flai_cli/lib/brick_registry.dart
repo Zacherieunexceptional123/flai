@@ -109,13 +109,13 @@ abstract final class BrickRegistry {
       name: 'openai_provider',
       description: 'Provider implementation for the OpenAI API.',
       category: BrickCategory.providers,
-      pubDependencies: ['openai_dart'],
+      pubDependencies: ['http'],
     ),
     'anthropic_provider': BrickInfo(
       name: 'anthropic_provider',
       description: 'Provider implementation for the Anthropic API.',
       category: BrickCategory.providers,
-      pubDependencies: ['anthropic_sdk_dart'],
+      pubDependencies: ['http'],
     ),
   };
 

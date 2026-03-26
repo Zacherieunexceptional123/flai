@@ -1,0 +1,11 @@
+name: tool_call_card
+description: Card displaying AI tool/function call with name, arguments, result, and loading state
+version: 0.1.0
+environment:
+  mason: ">=0.1.0 <1.0.0"
+vars:
+  output_dir:
+    type: string
+    description: Output directory for generated files
+    default: flai
+    prompt: "Where are your FlAI files?"

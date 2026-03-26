@@ -1,0 +1,11 @@
+name: image_preview
+description: Image preview thumbnail with full-screen expansion dialog
+version: 0.1.0
+environment:
+  mason: ">=0.1.0 <1.0.0"
+vars:
+  output_dir:
+    type: string
+    description: Output directory for generated files
+    default: flai
+    prompt: "Where are your FlAI files?"

@@ -1,0 +1,11 @@
+name: conversation_list
+description: Scrollable list of past conversations with search and selection
+version: 0.1.0
+environment:
+  mason: ">=0.1.0 <1.0.0"
+vars:
+  output_dir:
+    type: string
+    description: Output directory for generated files
+    default: flai
+    prompt: "Where are your FlAI files?"
