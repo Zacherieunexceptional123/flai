@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/homepage.css">
 </head>
 <body class="homepage-layout">
 
@@ -17,210 +19,452 @@
   <main class="main-content">
     <div class="homepage-container">
 
-      <!-- Hero -->
-      <section class="hp-hero">
-        <h1 class="hp-title">FlAI</h1>
-        <p class="hp-tagline">AI chat components for Flutter.<br>Source-installed, fully yours.</p>
-        <div class="hp-hero-btns">
-          <a href="docs/index.html" class="btn btn-primary">Get Started</a>
-          <a href="https://github.com/aphaiboon/flutter-ai-chat-components" target="_blank" class="btn btn-secondary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            GitHub
+      <!-- ============================================ -->
+      <!-- HERO: Split — Left copy + install, Right demo -->
+      <!-- ============================================ -->
+      <section class="hero-split">
+        <div class="hero-left">
+          <div class="hero-badge-row">
+            <span class="hero-version">v0.1.0</span>
+            <span class="hero-badge-dot"></span>
+            <span class="hero-badge-text">Open Source</span>
+          </div>
+          <h1 class="hero-h1">Beautiful AI interfaces.<br>Delivered as source code.</h1>
+          <p class="hero-sub">13 Flutter components for AI chat. CLI-installed into your project — no packages, no lock-in. Edit everything.</p>
+
+          <!-- Install right in the hero -->
+          <div class="hero-terminal">
+            <div class="hero-term-line">
+              <span class="hero-term-prompt">$</span>
+              <span class="hero-term-cmd">dart pub global activate flai_cli</span>
+            </div>
+            <div class="hero-term-line">
+              <span class="hero-term-prompt">$</span>
+              <span class="hero-term-cmd">flai init</span>
+            </div>
+            <div class="hero-term-line">
+              <span class="hero-term-prompt">$</span>
+              <span class="hero-term-cmd">flai add chat_screen</span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="docs/index.html" class="btn btn-primary">Get Started</a>
+            <a href="https://github.com/aphaiboon/flutter-ai-chat-components" target="_blank" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="hero-phone">
+            <div class="hero-phone-notch"></div>
+            <div class="hero-chat">
+              <div class="hero-chat-header">
+                <div class="hero-chat-avatar">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0110 10c0 5.523-4.477 10-10 10S2 17.523 2 12"/><path d="M12 2v10l4.5 4.5"/></svg>
+                </div>
+                <div>
+                  <div class="hero-chat-name">AI Assistant</div>
+                  <div class="hero-chat-model">Claude Sonnet 4</div>
+                </div>
+              </div>
+              <div class="hero-chat-body">
+                <div class="hb hb-user">Explain monads in simple terms</div>
+                <div class="hb hb-ai">Think of a monad as a design pattern. It wraps a value in a context and gives you two operations: one to put a value in, and one to chain transformations that each return a new wrapped value.<span class="hb-cursor"></span></div>
+              </div>
+              <div class="hero-chat-input">
+                <span class="hero-chat-plus">+</span>
+                <span class="hero-chat-placeholder">Message...</span>
+                <div class="hero-chat-send">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- HOW IT WORKS: 3 steps -->
+      <!-- ============================================ -->
+      <section class="how-section">
+        <div class="how-header">
+          <h2 class="section-label">How it works</h2>
+          <p class="section-desc">Three commands. Full chat UI. Your code.</p>
+        </div>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="how-step-num">1</div>
+            <div class="how-step-content">
+              <h3>Initialize</h3>
+              <p><code>flai init</code> scaffolds the core: theme system, data models, and the provider interface. Creates <code>lib/flai/</code> in your project.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">2</div>
+            <div class="how-step-content">
+              <h3>Add components</h3>
+              <p><code>flai add chat_screen</code> installs the component and its dependencies as source files. Not a package — actual <code>.dart</code> files you can read and edit.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">3</div>
+            <div class="how-step-content">
+              <h3>Ship</h3>
+              <p>Wrap with <code>FlaiTheme</code>, connect an AI provider, and you have a production chat UI. Customize any component — it's your code now.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- COMPONENT GALLERY: Visual grid, all at once  -->
+      <!-- ============================================ -->
+      <section class="gallery-section">
+        <div class="gallery-header">
+          <h2 class="section-label">Components</h2>
+          <p class="section-desc">Everything you need. Nothing you don't.</p>
+        </div>
+
+        <div class="gallery-grid">
+          <!-- Chat Screen -->
+          <a href="docs/components/chat-screen.html" class="gallery-card gallery-card-wide">
+            <div class="gallery-card-preview">
+              <div class="gc-chat">
+                <div class="gc-header"><span class="gc-dot"></span> AI Assistant</div>
+                <div class="gc-msg gc-msg-user">Hello!</div>
+                <div class="gc-msg gc-msg-ai">Hey! How can I help?<span class="gc-cursor"></span></div>
+                <div class="gc-input"><span class="gc-input-text">Message...</span><span class="gc-send-dot"></span></div>
+              </div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Chat Screen</span>
+              <span class="gallery-card-desc">Full-page chat composition</span>
+            </div>
+          </a>
+
+          <!-- Message Bubble -->
+          <a href="docs/components/message-bubble.html" class="gallery-card">
+            <div class="gallery-card-preview">
+              <div class="gc-msg gc-msg-user" style="font-size:11px;">What is Flutter?</div>
+              <div class="gc-msg gc-msg-ai" style="font-size:11px;">A UI toolkit for building...</div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Message Bubble</span>
+              <span class="gallery-card-desc">User, assistant, system</span>
+            </div>
+          </a>
+
+          <!-- Input Bar -->
+          <a href="docs/components/input-bar.html" class="gallery-card">
+            <div class="gallery-card-preview gc-center">
+              <div class="gc-input-demo"><span class="gc-plus">+</span><span class="gc-input-text">Message...</span><span class="gc-send-dot"></span></div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Input Bar</span>
+              <span class="gallery-card-desc">Text field + send</span>
+            </div>
+          </a>
+
+          <!-- Streaming Text -->
+          <a href="docs/components/streaming-text.html" class="gallery-card">
+            <div class="gallery-card-preview gc-center">
+              <div class="gc-msg gc-msg-ai" style="font-size:11px;">Streaming token by token<span class="gc-cursor"></span></div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Streaming Text</span>
+              <span class="gallery-card-desc">Token-by-token render</span>
+            </div>
+          </a>
+
+          <!-- Typing Indicator -->
+          <a href="docs/components/typing-indicator.html" class="gallery-card">
+            <div class="gallery-card-preview gc-center">
+              <div class="gc-typing"><span class="gc-tdot"></span><span class="gc-tdot"></span><span class="gc-tdot"></span></div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Typing Indicator</span>
+              <span class="gallery-card-desc">Animated dots</span>
+            </div>
+          </a>
+
+          <!-- Tool Call Card -->
+          <a href="docs/components/tool-call-card.html" class="gallery-card">
+            <div class="gallery-card-preview">
+              <div class="gc-tool">
+                <div class="gc-tool-head"><span>🔧</span> <code>get_weather</code> <span class="gc-check">✓</span></div>
+                <div class="gc-tool-body"><code style="color:#86efac;">{"city":"SF"}</code></div>
+              </div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Tool Call Card</span>
+              <span class="gallery-card-desc">Function calls + results</span>
+            </div>
+          </a>
+
+          <!-- Code Block -->
+          <a href="docs/components/code-block.html" class="gallery-card">
+            <div class="gallery-card-preview">
+              <div class="gc-code">
+                <div class="gc-code-head">dart <span style="margin-left:auto;font-size:10px;">Copy</span></div>
+                <div class="gc-code-body"><span style="color:#818CF8;">void</span> <span style="color:#fcd34d;">main</span>() =&gt; <span style="color:#fcd34d;">runApp</span>();</div>
+              </div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Code Block</span>
+              <span class="gallery-card-desc">Syntax + copy</span>
+            </div>
+          </a>
+
+          <!-- Thinking Indicator -->
+          <a href="docs/components/thinking-indicator.html" class="gallery-card">
+            <div class="gallery-card-preview gc-center">
+              <div class="gc-thinking">
+                <span>🧠</span>
+                <span style="color:#A1A1AA;">Thinking for 3.2s</span>
+                <span style="margin-left:auto;color:#52525B;">▼</span>
+              </div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Thinking Indicator</span>
+              <span class="gallery-card-desc">Expandable reasoning</span>
+            </div>
+          </a>
+
+          <!-- Citation Card -->
+          <a href="docs/components/citation-card.html" class="gallery-card">
+            <div class="gallery-card-preview gc-center">
+              <div class="gc-citation">🔗 Flutter Growth Report</div>
+              <div class="gc-citation" style="margin-top:6px;">🔗 Google I/O Update</div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Citation Card</span>
+              <span class="gallery-card-desc">Source attribution</span>
+            </div>
+          </a>
+
+          <!-- Image Preview -->
+          <a href="docs/components/image-preview.html" class="gallery-card">
+            <div class="gallery-card-preview gc-center" style="flex-direction:row;gap:8px;">
+              <div class="gc-img">🖼️</div>
+              <div class="gc-img" style="width:48px;">📊</div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Image Preview</span>
+              <span class="gallery-card-desc">Thumbnail + zoom</span>
+            </div>
+          </a>
+
+          <!-- Conversation List -->
+          <a href="docs/components/conversation-list.html" class="gallery-card">
+            <div class="gallery-card-preview">
+              <div class="gc-convlist">
+                <div class="gc-conv gc-conv-sel"><span class="gc-conv-dot"></span><span>REST API in Dart</span><span class="gc-conv-time">2m</span></div>
+                <div class="gc-conv"><span class="gc-conv-dot"></span><span>State management</span><span class="gc-conv-time">1h</span></div>
+                <div class="gc-conv"><span class="gc-conv-dot"></span><span>Database design</span><span class="gc-conv-time">1d</span></div>
+              </div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Conversation List</span>
+              <span class="gallery-card-desc">History + search</span>
+            </div>
+          </a>
+
+          <!-- Model Selector -->
+          <a href="docs/components/model-selector.html" class="gallery-card">
+            <div class="gallery-card-preview gc-center">
+              <div class="gc-model-btn">⚡ Claude Sonnet 4 <span style="color:#52525B;">▼</span></div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Model Selector</span>
+              <span class="gallery-card-desc">Model picker sheet</span>
+            </div>
+          </a>
+
+          <!-- Token Usage -->
+          <a href="docs/components/token-usage.html" class="gallery-card">
+            <div class="gallery-card-preview gc-center">
+              <div class="gc-tokens">
+                <span>↑ <strong>1,245</strong></span>
+                <span>↓ <strong>832</strong></span>
+                <span style="color:#52525B;">$0.003</span>
+              </div>
+            </div>
+            <div class="gallery-card-label">
+              <span class="gallery-card-name">Token Usage</span>
+              <span class="gallery-card-desc">Count + cost</span>
+            </div>
           </a>
         </div>
       </section>
 
-      <!-- Live Demo Preview -->
-      <section class="hp-demo-section">
-        <div class="hp-phone-frame">
-          <div class="hp-phone-notch"></div>
-          <div class="hp-chat-app">
-            <!-- Chat header -->
-            <div class="hp-chat-header">
-              <div class="hp-chat-header-left">
-                <div class="hp-chat-avatar">AI</div>
-                <div>
-                  <div class="hp-chat-name">AI Assistant</div>
-                  <div class="hp-chat-model">Claude Sonnet 4</div>
-                </div>
-              </div>
-              <div class="hp-chat-header-dots">
-                <span></span><span></span><span></span>
-              </div>
+      <!-- ============================================ -->
+      <!-- THEMES: 4 side-by-side -->
+      <!-- ============================================ -->
+      <section class="themes-section">
+        <div class="themes-header">
+          <h2 class="section-label">Themes</h2>
+          <p class="section-desc">Your brand, not ours. Four presets, every token customizable.</p>
+        </div>
+        <div class="themes-row">
+          <div class="theme-card">
+            <div class="theme-preview theme-light">
+              <div class="tp-header">AI Assistant</div>
+              <div class="tp-bubble tp-user">Hello!</div>
+              <div class="tp-bubble tp-ai">Hey there! 👋</div>
             </div>
-            <!-- Chat messages -->
-            <div class="hp-chat-messages">
-              <div class="hp-msg hp-msg-user">
-                <div class="hp-msg-bubble hp-msg-bubble-user">Explain monads in simple terms</div>
-              </div>
-              <div class="hp-msg hp-msg-assistant">
-                <div class="hp-msg-bubble hp-msg-bubble-assistant">
-                  <span class="hp-msg-text">Think of a monad as a design pattern that wraps values in a context. It gives you two operations: one to put a value into the context, and one to chain operations that each return a new wrapped value.</span><span class="hp-cursor"></span>
-                </div>
-              </div>
-              <div class="hp-msg hp-msg-assistant">
-                <div class="hp-typing">
-                  <span class="hp-typing-dot"></span>
-                  <span class="hp-typing-dot"></span>
-                  <span class="hp-typing-dot"></span>
-                </div>
-              </div>
+            <div class="theme-label">Light</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-preview theme-dark">
+              <div class="tp-header">AI Assistant</div>
+              <div class="tp-bubble tp-user">Hello!</div>
+              <div class="tp-bubble tp-ai">Hey there! 👋</div>
             </div>
-            <!-- Chat input -->
-            <div class="hp-chat-input">
-              <div class="hp-chat-input-field">Ask anything...</div>
-              <div class="hp-chat-send">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              </div>
+            <div class="theme-label">Dark</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-preview theme-ios">
+              <div class="tp-header">AI Assistant</div>
+              <div class="tp-bubble tp-user">Hello!</div>
+              <div class="tp-bubble tp-ai">Hey there! 👋</div>
             </div>
+            <div class="theme-label">iOS</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-preview theme-premium">
+              <div class="tp-header">AI Assistant</div>
+              <div class="tp-bubble tp-user">Hello!</div>
+              <div class="tp-bubble tp-ai">Hey there! 👋</div>
+            </div>
+            <div class="theme-label">Premium</div>
           </div>
         </div>
       </section>
 
-      <!-- Three-line pitch -->
-      <section class="hp-pitch">
-        <p>Source-installed via CLI. Not a package &mdash; you own the code.</p>
-        <p>13 components. Streaming, tool calls, thinking, citations.</p>
-        <p>4 theme presets. Customize every token.</p>
-      </section>
-
-      <!-- Install -->
-      <section class="hp-install">
-        <div class="hp-terminal">
-          <div class="hp-terminal-header">
-            <div class="hp-terminal-dots">
-              <span class="hp-tdot hp-tdot-r"></span>
-              <span class="hp-tdot hp-tdot-y"></span>
-              <span class="hp-tdot hp-tdot-g"></span>
-            </div>
-            <span class="hp-terminal-title">Terminal</span>
-            <div class="hp-terminal-spacer"></div>
-          </div>
-          <div class="hp-terminal-body">
-            <div class="hp-terminal-line"><span class="hp-t-prompt">$</span> dart pub global activate flai_cli</div>
-            <div class="hp-terminal-line"><span class="hp-t-prompt">$</span> flai init</div>
-            <div class="hp-terminal-line"><span class="hp-t-prompt">$</span> flai add chat_screen</div>
-          </div>
+      <!-- ============================================ -->
+      <!-- "IT'S JUST FLUTTER": Code reveal -->
+      <!-- ============================================ -->
+      <section class="code-section">
+        <div class="code-section-header">
+          <h2 class="section-label">It's just Flutter</h2>
+          <p class="section-desc">No black boxes. Generated components use standard Flutter primitives you already know.</p>
         </div>
-      </section>
-
-      <!-- Component Showcase -->
-      <section class="hp-showcase">
-        <div class="hp-showcase-tabs">
-          <button class="hp-showcase-tab active" data-tab="bubbles">Message Bubbles</button>
-          <button class="hp-showcase-tab" data-tab="toolcall">Tool Call</button>
-          <button class="hp-showcase-tab" data-tab="thinking">Thinking</button>
-          <button class="hp-showcase-tab" data-tab="streaming">Streaming Text</button>
-        </div>
-
-        <div class="hp-showcase-panels">
-          <!-- Message Bubbles -->
-          <div class="hp-showcase-panel active" data-panel="bubbles">
-            <div class="hp-showcase-demo">
-              <div class="hp-demo-msg hp-demo-msg-user">
-                <div class="hp-demo-bubble hp-demo-bubble-user">What's the weather like in Bangkok?</div>
-              </div>
-              <div class="hp-demo-msg hp-demo-msg-ai">
-                <div class="hp-demo-bubble hp-demo-bubble-ai">Currently 34C and sunny in Bangkok. Humidity is around 65%, with light winds from the south. Expect scattered clouds this afternoon.</div>
-              </div>
-              <div class="hp-demo-msg hp-demo-msg-user">
-                <div class="hp-demo-bubble hp-demo-bubble-user">Thanks!</div>
-              </div>
-            </div>
+        <div class="code-reveal">
+          <div class="code-reveal-header">
+            <span class="code-reveal-file">lib/flai/components/chat_screen/chat_screen.dart</span>
           </div>
+<pre><code class="language-dart">class FlaiChatScreen extends StatefulWidget {
+  final ChatScreenController controller;
+  final String? title;
+  final String? subtitle;
+  final Widget? emptyState;
 
-          <!-- Tool Call -->
-          <div class="hp-showcase-panel" data-panel="toolcall">
-            <div class="hp-showcase-demo">
-              <div class="hp-demo-toolcall">
-                <div class="hp-toolcall-header">
-                  <div class="hp-toolcall-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-                  </div>
-                  <div class="hp-toolcall-name">get_weather</div>
-                  <div class="hp-toolcall-status hp-toolcall-done">completed</div>
-                </div>
-                <div class="hp-toolcall-body">
-                  <div class="hp-toolcall-section">
-                    <span class="hp-toolcall-label">Input</span>
-                    <code>{ "city": "Bangkok", "units": "celsius" }</code>
-                  </div>
-                  <div class="hp-toolcall-section">
-                    <span class="hp-toolcall-label">Result</span>
-                    <code>{ "temp": 34, "condition": "sunny", "humidity": 65 }</code>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  // ... your code. Edit anything.
 
-          <!-- Thinking -->
-          <div class="hp-showcase-panel" data-panel="thinking">
-            <div class="hp-showcase-demo">
-              <div class="hp-demo-thinking">
-                <div class="hp-thinking-header">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                  <span>Thinking for 3.2s</span>
-                  <button class="hp-thinking-toggle" aria-label="Expand">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                  </button>
-                </div>
-                <div class="hp-thinking-content">
-                  <p>The user is asking about monads. I should explain this using a familiar analogy. Lists, Promises, and Option types are all monads. The key operations are <code>return</code> (wrapping) and <code>bind</code> (chaining). I'll avoid category theory jargon and focus on practical usage...</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Streaming Text -->
-          <div class="hp-showcase-panel" data-panel="streaming">
-            <div class="hp-showcase-demo">
-              <div class="hp-demo-msg hp-demo-msg-ai">
-                <div class="hp-demo-bubble hp-demo-bubble-ai">
-                  <span class="hp-streaming-text">Here's a quick Dart example of a stream controller:</span><span class="hp-cursor"></span>
-                </div>
-              </div>
-              <div class="hp-demo-codeblock">
-                <div class="hp-demo-codeblock-header">
-                  <span>dart</span>
-                </div>
-                <pre><code>final controller = StreamController&lt;String&gt;();
-controller.stream.listen((chunk) {
-  setState(() => text += chunk);
-});
-await for (final token in api.stream(prompt)) {
-  controller.add(token);
+  @override
+  Widget build(BuildContext context) {
+    final theme = FlaiTheme.of(context);
+    return Column(
+      children: [
+        if (widget.showHeader) _buildHeader(theme),
+        Expanded(
+          child: ListView.builder(
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              return MessageBubble(
+                message: messages[index],
+              );
+            },
+          ),
+        ),
+        FlaiInputBar(onSend: _handleSend),
+      ],
+    );
+  }
 }</code></pre>
-              </div>
-            </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- NOT A PACKAGE: Why source-installed -->
+      <!-- ============================================ -->
+      <section class="compare-section">
+        <div class="compare-header">
+          <h2 class="section-label">Not a package</h2>
+          <p class="section-desc">Traditional packages hide code behind versions. FlAI gives you the source.</p>
+        </div>
+        <div class="compare-grid">
+          <div class="compare-card compare-old">
+            <div class="compare-card-title">Typical package</div>
+            <div class="compare-item"><span class="compare-x">✕</span> Can't edit component internals</div>
+            <div class="compare-item"><span class="compare-x">✕</span> Breaking changes on update</div>
+            <div class="compare-item"><span class="compare-x">✕</span> Opaque dependency tree</div>
+            <div class="compare-item"><span class="compare-x">✕</span> Locked to package's design</div>
+          </div>
+          <div class="compare-card compare-new">
+            <div class="compare-card-title">FlAI</div>
+            <div class="compare-item"><span class="compare-check">✓</span> Full source in your project</div>
+            <div class="compare-item"><span class="compare-check">✓</span> Update when <em>you</em> want</div>
+            <div class="compare-item"><span class="compare-check">✓</span> Zero runtime dependencies</div>
+            <div class="compare-item"><span class="compare-check">✓</span> Your brand, your rules</div>
           </div>
         </div>
       </section>
 
-      <!-- Footer -->
+      <!-- ============================================ -->
+      <!-- PROVIDERS -->
+      <!-- ============================================ -->
+      <section class="providers-section">
+        <div class="providers-header">
+          <h2 class="section-label">AI Providers</h2>
+          <p class="section-desc">Drop-in implementations. Or write your own — it's one interface.</p>
+        </div>
+        <div class="providers-row">
+          <a href="docs/providers/openai.html" class="provider-card">
+            <div class="provider-name">OpenAI</div>
+            <div class="provider-models">GPT-4o, GPT-4, GPT-3.5</div>
+            <div class="provider-caps">
+              <span class="pcap">Streaming</span>
+              <span class="pcap">Tool Use</span>
+              <span class="pcap">Vision</span>
+            </div>
+          </a>
+          <a href="docs/providers/anthropic.html" class="provider-card">
+            <div class="provider-name">Anthropic</div>
+            <div class="provider-models">Claude Opus 4, Sonnet 4, Haiku</div>
+            <div class="provider-caps">
+              <span class="pcap">Streaming</span>
+              <span class="pcap">Tool Use</span>
+              <span class="pcap">Vision</span>
+              <span class="pcap pcap-special">Thinking</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- FOOTER -->
+      <!-- ============================================ -->
       <footer class="hp-footer">
-        <span>MIT License</span>
-        <span class="hp-footer-sep">&middot;</span>
-        <a href="https://github.com/aphaiboon/flutter-ai-chat-components" target="_blank">GitHub</a>
-        <span class="hp-footer-sep">&middot;</span>
-        <span>Built for Flutter developers</span>
+        <div class="footer-left">
+          <span class="footer-logo">FlAI</span>
+          <span class="footer-copy">MIT License</span>
+        </div>
+        <div class="footer-links">
+          <a href="docs/index.html">Docs</a>
+          <a href="docs/components/chat-screen.html">Components</a>
+          <a href="https://github.com/aphaiboon/flutter-ai-chat-components" target="_blank">GitHub</a>
+        </div>
       </footer>
 
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
   <script src="js/main.js"></script>
-  <script>
-    // Showcase tabs
-    document.querySelectorAll('.hp-showcase-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const target = tab.dataset.tab;
-        document.querySelectorAll('.hp-showcase-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.hp-showcase-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.querySelector('[data-panel="' + target + '"]').classList.add('active');
-      });
-    });
-  </script>
 </body>
 </html>
