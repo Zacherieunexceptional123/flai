@@ -31,9 +31,9 @@ void main() {
         expect(result.indexOf('streaming_text'), lessThan(chatScreenIndex));
       });
 
-      test('resolves exactly 4 items for chat_screen (3 deps + itself)', () {
+      test('resolves exactly 5 items for chat_screen (4 deps + itself)', () {
         final result = resolver.resolve('chat_screen');
-        expect(result, hasLength(4));
+        expect(result, hasLength(5));
       });
 
       test('excludes already-installed components', () {
@@ -65,6 +65,7 @@ void main() {
               'message_bubble',
               'input_bar',
               'streaming_text',
+              'typing_indicator',
             },
           );
           expect(result, isEmpty);

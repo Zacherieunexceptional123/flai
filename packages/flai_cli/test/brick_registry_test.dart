@@ -136,12 +136,17 @@ void main() {
 
     group('component dependencies', () {
       test(
-        'chat_screen depends on message_bubble, input_bar, streaming_text',
+        'chat_screen depends on message_bubble, input_bar, streaming_text, typing_indicator',
         () {
           final info = BrickRegistry.lookup('chat_screen')!;
           expect(
             info.dependencies,
-            unorderedEquals(['message_bubble', 'input_bar', 'streaming_text']),
+            unorderedEquals([
+              'message_bubble',
+              'input_bar',
+              'streaming_text',
+              'typing_indicator',
+            ]),
           );
         },
       );

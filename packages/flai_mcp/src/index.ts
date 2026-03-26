@@ -36,7 +36,7 @@ const COMPONENT_REGISTRY: Record<string, ComponentInfo> = {
     description:
       "Full-page AI chat screen composing message bubbles, input bar, streaming text, and typing indicator into a complete chat experience. Connects to a ChatScreenController for state management and AI provider interaction.",
     category: CATEGORIES.CHAT_ESSENTIALS,
-    dependencies: ["message_bubble", "input_bar", "streaming_text"],
+    dependencies: ["message_bubble", "input_bar", "streaming_text", "typing_indicator"],
     pubDependencies: [],
     props: {
       controller: "ChatScreenController — manages chat state and AI interaction",

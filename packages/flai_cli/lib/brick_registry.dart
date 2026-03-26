@@ -36,7 +36,12 @@ abstract final class BrickRegistry {
       description:
           'Full-featured chat screen with messages, input, and streaming.',
       category: BrickCategory.chatEssentials,
-      dependencies: ['message_bubble', 'input_bar', 'streaming_text'],
+      dependencies: [
+        'message_bubble',
+        'input_bar',
+        'streaming_text',
+        'typing_indicator',
+      ],
     ),
     'message_bubble': BrickInfo(
       name: 'message_bubble',
