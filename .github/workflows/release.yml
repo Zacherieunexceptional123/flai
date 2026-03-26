@@ -1,0 +1,156 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  id-token: write
+  deployments: write
+
+jobs:
+  # ── Step 1: Run CI checks first ──────────────────────────────────
+  ci:
+    name: CI Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "3.7.0"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap
+        run: melos bootstrap
+
+      - name: Analyze
+        run: melos run analyze
+
+      - name: Format check
+        run: melos run format
+
+      - name: Test
+        run: melos run test
+
+  # ── Step 2: Publish CLI to pub.dev ───────────────────────────────
+  publish-cli:
+    name: Publish CLI to pub.dev
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "3.7.0"
+
+      - name: Install dependencies
+        working-directory: packages/flai_cli
+        run: dart pub get
+
+      - name: Dry run
+        working-directory: packages/flai_cli
+        run: dart pub publish --dry-run
+
+      - name: Publish
+        working-directory: packages/flai_cli
+        run: dart pub publish --force
+        env:
+          PUB_TOKEN: ${{ secrets.PUB_DEV_TOKEN }}
+
+  # ── Step 3: Publish MCP to npm ───────────────────────────────────
+  publish-mcp:
+    name: Publish MCP to npm
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        working-directory: packages/flai_mcp
+        run: npm ci
+
+      - name: Build
+        working-directory: packages/flai_mcp
+        run: npx tsc
+
+      - name: Publish
+        working-directory: packages/flai_mcp
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # ── Step 4: Deploy docs to Cloudflare Pages ──────────────────────
+  deploy-docs:
+    name: Deploy Docs
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy docs-site --project-name=flai-docs
+
+  # ── Step 5: Create GitHub Release ────────────────────────────────
+  github-release:
+    name: GitHub Release
+    needs: [publish-cli, publish-mcp, deploy-docs]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+
+      - name: Extract changelog for this version
+        id: changelog
+        env:
+          RAW_VERSION: ${{ github.ref_name }}
+        run: |
+          VERSION="${RAW_VERSION#v}"
+          NOTES=$(awk "/^## \[${VERSION}\]/,/^## \[/" CHANGELOG.md | head -n -1)
+          if [ -z "$NOTES" ]; then
+            NOTES="Release v${VERSION} — see CHANGELOG.md for details."
+          fi
+          {
+            echo "notes<<EOF"
+            echo "$NOTES"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          body: |
+            ${{ steps.changelog.outputs.notes }}
+
+            ---
+
+            **Install:**
+            ```bash
+            dart pub global activate flai_cli
+            ```
+
+            **Docs:** [getflai.dev](https://getflai.dev)
+          draft: false
+          prerelease: false
