@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:mason/mason.dart';
 import 'package:path/path.dart' as p;
 
 import '../config.dart';
@@ -19,8 +20,8 @@ class InitCommand extends Command<int> {
       ..addOption(
         'output-dir',
         abbr: 'o',
-        help: 'Directory for generated components.',
-        defaultsTo: 'lib/flai',
+        help: 'Subdirectory inside lib/ for generated components.',
+        defaultsTo: 'flai',
       )
       ..addOption(
         'theme',
@@ -62,21 +63,44 @@ class InitCommand extends Command<int> {
 
     // 3. Create the config file.
     final config = FlaiConfig(
-      outputDir: outputDir,
+      outputDir: 'lib/$outputDir',
       theme: theme,
-      installed: [],
+      installed: ['flai_init'],
     );
     configManager.write(config);
     stdout.writeln('\x1B[32m\u2713\x1B[0m Created $kConfigFileName');
 
-    // 4. Create the output directory structure.
-    final outputPath = p.join(cwd, outputDir);
-    _ensureDirectory(p.join(outputPath, 'core'));
-    _ensureDirectory(p.join(outputPath, 'widgets'));
-    _ensureDirectory(p.join(outputPath, 'providers'));
+    // 4. Generate core files using the flai_init Mason brick.
+    final brickPath = _resolveBrickPath('flai_init');
+    if (brickPath == null) {
+      stderr.writeln(
+        '\x1B[31mError:\x1B[0m Could not locate the flai_init brick.',
+      );
+      stderr.writeln(
+        'Ensure you have the FlAI bricks available. '
+        'If installed via pub, bricks should be bundled with the CLI.',
+      );
+      return 1;
+    }
 
-    // 5. Generate core scaffold files (placeholder for mason brick).
-    _writeCoreFiles(outputPath, theme);
+    stdout.writeln('\x1B[36m>\x1B[0m Generating core files...');
+
+    try {
+      final generator = await MasonGenerator.fromBrick(Brick.path(brickPath));
+      final target = DirectoryGeneratorTarget(Directory(cwd));
+      final files = await generator.generate(
+        target,
+        vars: {'output_dir': outputDir},
+        fileConflictResolution: FileConflictResolution.overwrite,
+      );
+
+      for (final file in files) {
+        stdout.writeln('  \x1B[32m\u2713\x1B[0m ${file.path}');
+      }
+    } on Exception catch (e) {
+      stderr.writeln('\x1B[31mError:\x1B[0m Failed to generate files: $e');
+      return 1;
+    }
 
     stdout.writeln('');
     stdout.writeln('\x1B[32m\u2713 FlAI initialised successfully!\x1B[0m');
@@ -99,104 +123,29 @@ class InitCommand extends Command<int> {
     return 0;
   }
 
-  void _ensureDirectory(String path) {
-    final dir = Directory(path);
-    if (!dir.existsSync()) {
-      dir.createSync(recursive: true);
-      stdout.writeln(
-        '\x1B[32m\u2713\x1B[0m Created directory ${p.relative(path)}',
-      );
-    }
-  }
+  /// Tries to find the brick directory by checking common locations.
+  String? _resolveBrickPath(String brickName) {
+    // 1. Relative to the CLI package: ../../bricks/<name>/
+    final cliPackageDir = p.dirname(p.dirname(Platform.script.toFilePath()));
+    final fromCli = p.normalize(
+      p.join(cliPackageDir, '..', '..', 'bricks', brickName),
+    );
+    if (Directory(fromCli).existsSync()) return fromCli;
 
-  /// Writes the core scaffold files that `flai_init` mason brick would
-  /// generate. These are minimal stubs so the project compiles.
-  void _writeCoreFiles(String outputPath, String theme) {
-    // ── flai_theme.dart ────────────────────────────────────────────
-    final themeFile = File(p.join(outputPath, 'core', 'flai_theme.dart'));
-    if (!themeFile.existsSync()) {
-      themeFile.writeAsStringSync('''
-import 'package:flutter/material.dart';
+    // 2. From current working directory (monorepo dev).
+    final fromCwd = p.normalize(
+      p.join(Directory.current.path, 'bricks', brickName),
+    );
+    if (Directory(fromCwd).existsSync()) return fromCwd;
 
-/// FlAI theme configuration.
-///
-/// Customise colors, typography and spacing used by all FlAI components.
-class FlaiTheme {
-  final Color primaryColor;
-  final Color userBubbleColor;
-  final Color assistantBubbleColor;
-  final Color backgroundColor;
-  final TextStyle messageTextStyle;
-
-  const FlaiTheme({
-    this.primaryColor = const Color(0xFF6C63FF),
-    this.userBubbleColor = const Color(0xFF6C63FF),
-    this.assistantBubbleColor = const Color(0xFF2D2D2D),
-    this.backgroundColor = const Color(0xFF1A1A1A),
-    this.messageTextStyle = const TextStyle(fontSize: 15, height: 1.5),
-  });
-
-  static const FlaiTheme dark = FlaiTheme();
-
-  static const FlaiTheme light = FlaiTheme(
-    primaryColor: Color(0xFF6C63FF),
-    userBubbleColor: Color(0xFF6C63FF),
-    assistantBubbleColor: Color(0xFFE8E8E8),
-    backgroundColor: Color(0xFFFFFFFF),
-    messageTextStyle: TextStyle(
-      fontSize: 15,
-      height: 1.5,
-      color: Color(0xFF1A1A1A),
-    ),
-  );
-}
-''');
-      stdout.writeln('\x1B[32m\u2713\x1B[0m Generated core/flai_theme.dart');
+    // 3. Walk up from CWD looking for bricks/ directory.
+    var dir = Directory.current;
+    for (var i = 0; i < 5; i++) {
+      final candidate = p.join(dir.path, 'bricks', brickName);
+      if (Directory(candidate).existsSync()) return candidate;
+      dir = dir.parent;
     }
 
-    // ── chat_message.dart ──────────────────────────────────────────
-    final modelFile = File(p.join(outputPath, 'core', 'chat_message.dart'));
-    if (!modelFile.existsSync()) {
-      modelFile.writeAsStringSync('''
-/// The role of a chat message participant.
-enum MessageRole { user, assistant, system }
-
-/// A single chat message.
-class ChatMessage {
-  final String id;
-  final MessageRole role;
-  final String content;
-  final DateTime timestamp;
-
-  const ChatMessage({
-    required this.id,
-    required this.role,
-    required this.content,
-    required this.timestamp,
-  });
-}
-''');
-      stdout.writeln('\x1B[32m\u2713\x1B[0m Generated core/chat_message.dart');
-    }
-
-    // ── chat_provider.dart ─────────────────────────────────────────
-    final providerFile = File(p.join(outputPath, 'core', 'chat_provider.dart'));
-    if (!providerFile.existsSync()) {
-      providerFile.writeAsStringSync('''
-import 'chat_message.dart';
-
-/// Abstract interface for AI chat providers.
-///
-/// Implement this to connect FlAI widgets to an LLM backend.
-abstract class ChatProvider {
-  /// Sends [messages] and returns the assistant's reply.
-  Future<ChatMessage> sendMessage(List<ChatMessage> messages);
-
-  /// Sends [messages] and yields partial content as it streams in.
-  Stream<String> streamMessage(List<ChatMessage> messages);
-}
-''');
-      stdout.writeln('\x1B[32m\u2713\x1B[0m Generated core/chat_provider.dart');
-    }
+    return null;
   }
 }

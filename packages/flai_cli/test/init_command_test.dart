@@ -26,7 +26,7 @@ void main() {
         final option = command.argParser.options['output-dir'];
         expect(option, isNotNull);
         expect(option!.abbr, equals('o'));
-        expect(option.defaultsTo, equals('lib/flai'));
+        expect(option.defaultsTo, equals('flai'));
       });
 
       test('has --theme option with -t abbreviation', () {

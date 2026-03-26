@@ -51,21 +51,27 @@ class DoctorCommand extends Command<int> {
 
     // ── 3. Core files check ──────────────────────────────────────
     if (config != null) {
-      final corePath = p.join(cwd, config.outputDir, 'core');
+      final basePath = p.join(cwd, config.outputDir);
+
+      // Check for brick-generated file structure
       final expectedCoreFiles = [
-        'flai_theme.dart',
-        'chat_message.dart',
-        'chat_provider.dart',
+        p.join('core', 'theme', 'flai_theme.dart'),
+        p.join('core', 'theme', 'flai_colors.dart'),
+        p.join('core', 'theme', 'flai_typography.dart'),
+        p.join('core', 'models', 'message.dart'),
+        p.join('core', 'models', 'chat_event.dart'),
+        p.join('providers', 'ai_provider.dart'),
       ];
 
       var allCorePresent = true;
-      for (final fileName in expectedCoreFiles) {
-        final file = File(p.join(corePath, fileName));
+      for (final filePath in expectedCoreFiles) {
+        final file = File(p.join(basePath, filePath));
         if (file.existsSync()) {
-          _pass('Core file exists: ${config.outputDir}/core/$fileName');
+          _pass('Core file: $filePath');
         } else {
-          _warn('Missing core file: ${config.outputDir}/core/$fileName');
+          _warn('Missing: $filePath');
           allCorePresent = false;
+          hasErrors = true;
         }
       }
       if (!allCorePresent) {
@@ -80,7 +86,7 @@ class DoctorCommand extends Command<int> {
         stdout.writeln('\x1B[1mInstalled components:\x1B[0m');
         for (final name in config.installed) {
           final info = BrickRegistry.lookup(name);
-          if (info == null) {
+          if (info == null && name != 'flai_init') {
             _warn('$name is listed but not in the registry');
           } else {
             _pass(name);

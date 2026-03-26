@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:mason/mason.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 import 'package:yaml_edit/yaml_edit.dart';
@@ -107,23 +108,40 @@ class AddCommand extends Command<int> {
       return 0;
     }
 
-    // 6. Install each component.
-    final outputDir = p.join(cwd, config.outputDir, 'widgets');
-    _ensureDirectory(outputDir);
+    // Derive the output_dir variable from config.
+    // config.outputDir is like "lib/flai" — the brick var is just "flai".
+    final outputDirVar =
+        config.outputDir.startsWith('lib/')
+            ? config.outputDir.substring(4)
+            : config.outputDir;
 
+    // 6. Install each component using Mason.
     for (final name in installOrder) {
-      final info = BrickRegistry.lookup(name)!;
-
-      // Attempt to use a local mason brick; fall back to generating a stub.
-      final brickDir = _resolveBrickPath(name);
-      if (brickDir != null && Directory(brickDir).existsSync()) {
-        stdout.writeln('\x1B[36m>\x1B[0m Installing $name from brick...');
-        _copyBrickOutput(brickDir, outputDir, name);
-      } else {
-        stdout.writeln(
-          '\x1B[36m>\x1B[0m Generating $name stub (brick not found locally)...',
+      final brickPath = _resolveBrickPath(name);
+      if (brickPath == null) {
+        stderr.writeln(
+          '\x1B[33m!\x1B[0m Brick not found for $name — skipping.',
         );
-        _generateStub(outputDir, info);
+        continue;
+      }
+
+      stdout.writeln('\x1B[36m>\x1B[0m Installing $name...');
+
+      try {
+        final generator = await MasonGenerator.fromBrick(Brick.path(brickPath));
+        final target = DirectoryGeneratorTarget(Directory(cwd));
+        final files = await generator.generate(
+          target,
+          vars: {'output_dir': outputDirVar},
+          fileConflictResolution: FileConflictResolution.overwrite,
+        );
+
+        for (final file in files) {
+          stdout.writeln('  \x1B[32m\u2713\x1B[0m ${file.path}');
+        }
+      } on Exception catch (e) {
+        stderr.writeln('\x1B[31mError:\x1B[0m Failed to install $name: $e');
+        continue;
       }
     }
 
@@ -151,82 +169,30 @@ class AddCommand extends Command<int> {
     return 0;
   }
 
-  /// Tries to locate a mason brick at the conventional path relative to the
-  /// CLI package or project root.
+  /// Tries to find the brick directory by checking common locations.
   String? _resolveBrickPath(String brickName) {
-    // Resolve relative to the CLI package: ../../bricks/<name>/
+    // 1. Relative to the CLI package: ../../bricks/<name>/
     final cliPackageDir = p.dirname(p.dirname(Platform.script.toFilePath()));
-    final relativePath = p.join(cliPackageDir, '..', '..', 'bricks', brickName);
-    final resolved = p.normalize(relativePath);
-    if (Directory(resolved).existsSync()) return resolved;
+    final fromCli = p.normalize(
+      p.join(cliPackageDir, '..', '..', 'bricks', brickName),
+    );
+    if (Directory(fromCli).existsSync()) return fromCli;
 
-    // Also check from the current working directory.
+    // 2. From current working directory (monorepo dev).
     final fromCwd = p.normalize(
       p.join(Directory.current.path, 'bricks', brickName),
     );
     if (Directory(fromCwd).existsSync()) return fromCwd;
 
+    // 3. Walk up from CWD looking for bricks/ directory.
+    var dir = Directory.current;
+    for (var i = 0; i < 5; i++) {
+      final candidate = p.join(dir.path, 'bricks', brickName);
+      if (Directory(candidate).existsSync()) return candidate;
+      dir = dir.parent;
+    }
+
     return null;
-  }
-
-  /// Copies the brick's `__brick__` template output into [outputDir].
-  ///
-  /// This is a simplified approach: it copies Dart files from the brick's
-  /// `__brick__` directory as-is. A full implementation would use Mason's
-  /// generator to process Mustache templates.
-  void _copyBrickOutput(String brickDir, String outputDir, String name) {
-    final brickTemplate = Directory(p.join(brickDir, '__brick__'));
-    if (!brickTemplate.existsSync()) {
-      stdout.writeln(
-        '  \x1B[33m!\x1B[0m No __brick__ template found; generating stub instead.',
-      );
-      final info = BrickRegistry.lookup(name);
-      if (info != null) _generateStub(outputDir, info);
-      return;
-    }
-
-    for (final entity in brickTemplate.listSync(recursive: true)) {
-      if (entity is File && entity.path.endsWith('.dart')) {
-        final relativePath = p.relative(entity.path, from: brickTemplate.path);
-        final destPath = p.join(outputDir, relativePath);
-        _ensureDirectory(p.dirname(destPath));
-        entity.copySync(destPath);
-        stdout.writeln('  \x1B[32m\u2713\x1B[0m ${p.relative(destPath)}');
-      }
-    }
-  }
-
-  /// Generates a minimal stub file for a component when no brick is available.
-  void _generateStub(String outputDir, BrickInfo info) {
-    final className = _toPascalCase(info.name);
-    final fileName = '${info.name}.dart';
-    final filePath = p.join(outputDir, fileName);
-
-    if (File(filePath).existsSync()) {
-      stdout.writeln('  \x1B[33m!\x1B[0m $fileName already exists, skipping.');
-      return;
-    }
-
-    final content =
-        StringBuffer()
-          ..writeln("import 'package:flutter/material.dart';")
-          ..writeln()
-          ..writeln('/// ${info.description}')
-          ..writeln('///')
-          ..writeln('/// Generated by FlAI CLI. Customise freely.')
-          ..writeln('class $className extends StatelessWidget {')
-          ..writeln('  const $className({super.key});')
-          ..writeln()
-          ..writeln('  @override')
-          ..writeln('  Widget build(BuildContext context) {')
-          ..writeln(
-            "    return const Placeholder(); // TODO: implement $className",
-          )
-          ..writeln('  }')
-          ..writeln('}');
-
-    File(filePath).writeAsStringSync(content.toString());
-    stdout.writeln('  \x1B[32m\u2713\x1B[0m ${p.relative(filePath)}');
   }
 
   /// Adds [packages] to the project's `pubspec.yaml` under `dependencies`.
@@ -247,7 +213,6 @@ class AddCommand extends Command<int> {
 
     final editor = YamlEditor(content);
     for (final pkg in toAdd) {
-      // Use 'any' version constraint; the developer can pin later.
       editor.update(['dependencies', pkg], 'any');
       stdout.writeln(
         '  \x1B[32m\u2713\x1B[0m Added \x1B[36m$pkg\x1B[0m to pubspec.yaml',
@@ -255,19 +220,5 @@ class AddCommand extends Command<int> {
     }
 
     pubspecFile.writeAsStringSync(editor.toString());
-  }
-
-  void _ensureDirectory(String path) {
-    final dir = Directory(path);
-    if (!dir.existsSync()) {
-      dir.createSync(recursive: true);
-    }
-  }
-
-  String _toPascalCase(String snake) {
-    return snake
-        .split('_')
-        .map((w) => w.isEmpty ? '' : '${w[0].toUpperCase()}${w.substring(1)}')
-        .join();
   }
 }

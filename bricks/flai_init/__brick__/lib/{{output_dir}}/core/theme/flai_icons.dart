@@ -132,7 +132,7 @@ class FlaiIconData {
         expand: CupertinoIcons.chevron_down,
         collapse: CupertinoIcons.chevron_up,
         chat: CupertinoIcons.chat_bubble_2,
-        model: CupertinoIcons.cpu,
+        model: CupertinoIcons.desktopcomputer,
         refresh: CupertinoIcons.arrow_clockwise,
         error: CupertinoIcons.exclamationmark_circle,
       );
