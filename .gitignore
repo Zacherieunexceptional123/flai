@@ -1,0 +1,35 @@
+# Dart/Flutter
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+Thumbs.db
+
+# Pub
+pubspec.lock
+!packages/*/pubspec.lock
+
+# Mason
+.mason/
+
+# Generated
+*.g.dart
+*.freezed.dart
+
+# Superpowers brainstorm sessions
+.superpowers/
+
+# Environment
+.env
+.env.*

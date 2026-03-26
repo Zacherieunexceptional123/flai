@@ -1,0 +1,9 @@
+name: flutter_ai_chat_components
+description: A shadcn-style Flutter component library for AI chat interfaces.
+publish_to: none
+
+environment:
+  sdk: ^3.7.0
+
+dev_dependencies:
+  melos: ^6.3.2

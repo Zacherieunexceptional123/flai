@@ -1,0 +1,11 @@
+name: flai_init
+description: Initialize FlAI core — theme system, data models, and AI provider interface
+version: 0.1.0
+environment:
+  mason: ">=0.1.0 <1.0.0"
+vars:
+  output_dir:
+    type: string
+    description: Output directory for generated files
+    default: flai
+    prompt: "Where should FlAI files be generated?"
