@@ -22,8 +22,8 @@
   <meta name="keywords" content="flutter, ai, chat, components, ui, dart, openai, anthropic, claude, gpt, shadcn, mason">
   <meta name="author" content="FlAI">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/homepage.css">
+  <link rel="stylesheet" href="css/styles.css?v=0.2.1">
+  <link rel="stylesheet" href="css/homepage.css?v=0.2.1">
 </head>
 <body data-layout="home">
 
@@ -133,231 +133,6 @@
       </section>
 
       <!-- ============================================ -->
-      <!-- COMPONENT GALLERY: Visual grid, all at once  -->
-      <!-- ============================================ -->
-      <section class="gallery-section">
-        <div class="gallery-header">
-          <h2 class="section-label">Components</h2>
-          <p class="section-desc">Everything you need. Nothing you don't.</p>
-        </div>
-
-        <div class="gallery-grid">
-          <!-- Chat Screen -->
-          <a href="docs/components/chat-screen.html" class="gallery-card gallery-card-wide">
-            <div class="gallery-card-preview">
-              <div class="gc-chat">
-                <div class="gc-header"><span class="gc-dot"></span> AI Assistant</div>
-                <div class="gc-msg gc-msg-user">Hello!</div>
-                <div class="gc-msg gc-msg-ai">Hey! How can I help?<span class="gc-cursor"></span></div>
-                <div class="gc-input"><span class="gc-input-text">Message...</span><span class="gc-send-dot"></span></div>
-              </div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Chat Screen</span>
-              <span class="gallery-card-desc">Full-page chat composition</span>
-            </div>
-          </a>
-
-          <!-- Message Bubble -->
-          <a href="docs/components/message-bubble.html" class="gallery-card">
-            <div class="gallery-card-preview">
-              <div class="gc-msg gc-msg-user" style="font-size:11px;">What is Flutter?</div>
-              <div class="gc-msg gc-msg-ai" style="font-size:11px;">A UI toolkit for building...</div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Message Bubble</span>
-              <span class="gallery-card-desc">User, assistant, system</span>
-            </div>
-          </a>
-
-          <!-- Input Bar -->
-          <a href="docs/components/input-bar.html" class="gallery-card">
-            <div class="gallery-card-preview gc-center">
-              <div class="gc-input-demo"><span class="gc-plus">+</span><span class="gc-input-text">Message...</span><span class="gc-send-dot"></span></div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Input Bar</span>
-              <span class="gallery-card-desc">Text field + send</span>
-            </div>
-          </a>
-
-          <!-- Streaming Text -->
-          <a href="docs/components/streaming-text.html" class="gallery-card">
-            <div class="gallery-card-preview gc-center">
-              <div class="gc-msg gc-msg-ai" style="font-size:11px;">Streaming token by token<span class="gc-cursor"></span></div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Streaming Text</span>
-              <span class="gallery-card-desc">Token-by-token render</span>
-            </div>
-          </a>
-
-          <!-- Typing Indicator -->
-          <a href="docs/components/typing-indicator.html" class="gallery-card">
-            <div class="gallery-card-preview gc-center">
-              <div class="gc-typing"><span class="gc-tdot"></span><span class="gc-tdot"></span><span class="gc-tdot"></span></div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Typing Indicator</span>
-              <span class="gallery-card-desc">Animated dots</span>
-            </div>
-          </a>
-
-          <!-- Tool Call Card -->
-          <a href="docs/components/tool-call-card.html" class="gallery-card">
-            <div class="gallery-card-preview">
-              <div class="gc-tool">
-                <div class="gc-tool-head"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> <code>get_weather</code> <span class="gc-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
-                <div class="gc-tool-body"><code style="color:#86efac;">{"city":"SF"}</code></div>
-              </div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Tool Call Card</span>
-              <span class="gallery-card-desc">Function calls + results</span>
-            </div>
-          </a>
-
-          <!-- Code Block -->
-          <a href="docs/components/code-block.html" class="gallery-card">
-            <div class="gallery-card-preview">
-              <div class="gc-code">
-                <div class="gc-code-head">dart <span style="margin-left:auto;font-size:10px;">Copy</span></div>
-                <div class="gc-code-body"><span style="color:#818CF8;">void</span> <span style="color:#fcd34d;">main</span>() =&gt; <span style="color:#fcd34d;">runApp</span>();</div>
-              </div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Code Block</span>
-              <span class="gallery-card-desc">Syntax + copy</span>
-            </div>
-          </a>
-
-          <!-- Thinking Indicator -->
-          <a href="docs/components/thinking-indicator.html" class="gallery-card">
-            <div class="gallery-card-preview gc-center">
-              <div class="gc-thinking">
-                <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg></span>
-                <span style="color:#A1A1AA;">Thinking for 3.2s</span>
-                <span style="margin-left:auto;color:#52525B;">▼</span>
-              </div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Thinking Indicator</span>
-              <span class="gallery-card-desc">Expandable reasoning</span>
-            </div>
-          </a>
-
-          <!-- Citation Card -->
-          <a href="docs/components/citation-card.html" class="gallery-card">
-            <div class="gallery-card-preview gc-center">
-              <div class="gc-citation"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Flutter Growth Report</div>
-              <div class="gc-citation" style="margin-top:6px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Google I/O Update</div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Citation Card</span>
-              <span class="gallery-card-desc">Source attribution</span>
-            </div>
-          </a>
-
-          <!-- Image Preview -->
-          <a href="docs/components/image-preview.html" class="gallery-card">
-            <div class="gallery-card-preview gc-center" style="flex-direction:row;gap:8px;">
-              <div class="gc-img"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-              <div class="gc-img" style="width:48px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Image Preview</span>
-              <span class="gallery-card-desc">Thumbnail + zoom</span>
-            </div>
-          </a>
-
-          <!-- Conversation List -->
-          <a href="docs/components/conversation-list.html" class="gallery-card">
-            <div class="gallery-card-preview">
-              <div class="gc-convlist">
-                <div class="gc-conv gc-conv-sel"><span class="gc-conv-dot"></span><span>REST API in Dart</span><span class="gc-conv-time">2m</span></div>
-                <div class="gc-conv"><span class="gc-conv-dot"></span><span>State management</span><span class="gc-conv-time">1h</span></div>
-                <div class="gc-conv"><span class="gc-conv-dot"></span><span>Database design</span><span class="gc-conv-time">1d</span></div>
-              </div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Conversation List</span>
-              <span class="gallery-card-desc">History + search</span>
-            </div>
-          </a>
-
-          <!-- Model Selector -->
-          <a href="docs/components/model-selector.html" class="gallery-card">
-            <div class="gallery-card-preview gc-center">
-              <div class="gc-model-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Claude Sonnet 4 <span style="color:#52525B;">▼</span></div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Model Selector</span>
-              <span class="gallery-card-desc">Model picker sheet</span>
-            </div>
-          </a>
-
-          <!-- Token Usage -->
-          <a href="docs/components/token-usage.html" class="gallery-card">
-            <div class="gallery-card-preview gc-center">
-              <div class="gc-tokens">
-                <span>↑ <strong>1,245</strong></span>
-                <span>↓ <strong>832</strong></span>
-                <span style="color:#52525B;">$0.003</span>
-              </div>
-            </div>
-            <div class="gallery-card-label">
-              <span class="gallery-card-name">Token Usage</span>
-              <span class="gallery-card-desc">Count + cost</span>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- ============================================ -->
-      <!-- THEMES: 4 side-by-side -->
-      <!-- ============================================ -->
-      <section class="themes-section">
-        <div class="themes-header">
-          <h2 class="section-label">Themes</h2>
-          <p class="section-desc">Your brand, not ours. Four presets, every token customizable.</p>
-        </div>
-        <div class="themes-row">
-          <div class="theme-card">
-            <div class="theme-preview theme-light">
-              <div class="tp-header">AI Assistant</div>
-              <div class="tp-bubble tp-user">Hello!</div>
-              <div class="tp-bubble tp-ai">Hey there!</div>
-            </div>
-            <div class="theme-label">Light</div>
-          </div>
-          <div class="theme-card">
-            <div class="theme-preview theme-dark">
-              <div class="tp-header">AI Assistant</div>
-              <div class="tp-bubble tp-user">Hello!</div>
-              <div class="tp-bubble tp-ai">Hey there!</div>
-            </div>
-            <div class="theme-label">Dark</div>
-          </div>
-          <div class="theme-card">
-            <div class="theme-preview theme-ios">
-              <div class="tp-header">AI Assistant</div>
-              <div class="tp-bubble tp-user">Hello!</div>
-              <div class="tp-bubble tp-ai">Hey there!</div>
-            </div>
-            <div class="theme-label">iOS</div>
-          </div>
-          <div class="theme-card">
-            <div class="theme-preview theme-premium">
-              <div class="tp-header">AI Assistant</div>
-              <div class="tp-bubble tp-user">Hello!</div>
-              <div class="tp-bubble tp-ai">Hey there!</div>
-            </div>
-            <div class="theme-label">Premium</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================ -->
       <!-- "IT'S JUST FLUTTER": Code reveal -->
       <!-- ============================================ -->
       <section class="code-section">
@@ -402,59 +177,133 @@
       </section>
 
       <!-- ============================================ -->
-      <!-- NOT A PACKAGE: Why source-installed -->
+      <!-- NOT A PACKAGE: Visual comparison -->
       <!-- ============================================ -->
       <section class="compare-section">
         <div class="compare-header">
           <h2 class="section-label">Not a package</h2>
           <p class="section-desc">Traditional packages hide code behind versions. FlAI gives you the source.</p>
         </div>
-        <div class="compare-grid">
-          <div class="compare-card compare-old">
-            <div class="compare-card-title">Typical package</div>
-            <div class="compare-item"><span class="compare-x">✕</span> Can't edit component internals</div>
-            <div class="compare-item"><span class="compare-x">✕</span> Breaking changes on update</div>
-            <div class="compare-item"><span class="compare-x">✕</span> Opaque dependency tree</div>
-            <div class="compare-item"><span class="compare-x">✕</span> Locked to package's design</div>
+        <div class="compare-visual">
+          <!-- Left: Typical package (locked) -->
+          <div class="compare-side compare-locked">
+            <div class="compare-side-label">Typical package</div>
+            <div class="compare-file-tree">
+              <div class="cft-item cft-folder">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                <span>.dart_tool/</span>
+              </div>
+              <div class="cft-item cft-locked">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                <span>chat_package/</span>
+                <span class="cft-tag cft-tag-locked">read-only</span>
+              </div>
+              <div class="cft-item cft-sub cft-dimmed"><span>src/chat_screen.dart</span><span class="cft-lock-icon">&#128274;</span></div>
+              <div class="cft-item cft-sub cft-dimmed"><span>src/message_bubble.dart</span><span class="cft-lock-icon">&#128274;</span></div>
+              <div class="cft-item cft-sub cft-dimmed"><span>src/input_bar.dart</span><span class="cft-lock-icon">&#128274;</span></div>
+            </div>
+            <div class="compare-points">
+              <div class="compare-item"><span class="compare-x">&#10005;</span> Can't edit component internals</div>
+              <div class="compare-item"><span class="compare-x">&#10005;</span> Breaking changes on update</div>
+              <div class="compare-item"><span class="compare-x">&#10005;</span> Opaque dependency tree</div>
+              <div class="compare-item"><span class="compare-x">&#10005;</span> Locked to package's design</div>
+            </div>
           </div>
-          <div class="compare-card compare-new">
-            <div class="compare-card-title">FlAI</div>
-            <div class="compare-item"><span class="compare-check">✓</span> Full source in your project</div>
-            <div class="compare-item"><span class="compare-check">✓</span> Update when <em>you</em> want</div>
-            <div class="compare-item"><span class="compare-check">✓</span> Zero runtime dependencies</div>
-            <div class="compare-item"><span class="compare-check">✓</span> Your brand, your rules</div>
+
+          <!-- Divider -->
+          <div class="compare-vs">vs</div>
+
+          <!-- Right: FlAI (editable) -->
+          <div class="compare-side compare-editable">
+            <div class="compare-side-label">FlAI</div>
+            <div class="compare-file-tree">
+              <div class="cft-item cft-folder cft-highlight">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                <span>lib/flai/</span>
+                <span class="cft-tag cft-tag-yours">your code</span>
+              </div>
+              <div class="cft-item cft-sub cft-editable"><span>components/chat_screen.dart</span><span class="cft-edit-icon">&#9998;</span></div>
+              <div class="cft-item cft-sub cft-editable"><span>components/message_bubble.dart</span><span class="cft-edit-icon">&#9998;</span></div>
+              <div class="cft-item cft-sub cft-editable"><span>components/input_bar.dart</span><span class="cft-edit-icon">&#9998;</span></div>
+              <div class="cft-item cft-sub cft-editable"><span>core/theme/flai_theme.dart</span><span class="cft-edit-icon">&#9998;</span></div>
+            </div>
+            <div class="compare-points">
+              <div class="compare-item"><span class="compare-check">&#10003;</span> Full source in your project</div>
+              <div class="compare-item"><span class="compare-check">&#10003;</span> Update when <em>you</em> want</div>
+              <div class="compare-item"><span class="compare-check">&#10003;</span> Zero runtime dependencies</div>
+              <div class="compare-item"><span class="compare-check">&#10003;</span> Your brand, your rules</div>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- ============================================ -->
-      <!-- PROVIDERS -->
+      <!-- PROVIDERS: Visual cards with interface -->
       <!-- ============================================ -->
       <section class="providers-section">
         <div class="providers-header">
           <h2 class="section-label">AI Providers</h2>
           <p class="section-desc">Drop-in implementations. Or write your own — it's one interface.</p>
         </div>
-        <div class="providers-row">
-          <a href="docs/providers/openai.html" class="provider-card">
-            <div class="provider-name">OpenAI</div>
-            <div class="provider-models">GPT-4o, GPT-4, GPT-3.5</div>
-            <div class="provider-caps">
-              <span class="pcap">Streaming</span>
-              <span class="pcap">Tool Use</span>
-              <span class="pcap">Vision</span>
+        <div class="providers-layout">
+          <div class="providers-cards">
+            <a href="docs/providers/openai.html" class="provider-card">
+              <div class="provider-icon provider-icon-openai">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.282 9.821a5.985 5.985 0 00-.516-4.91 6.046 6.046 0 00-6.51-2.9A6.065 6.065 0 0011.5.292a6.046 6.046 0 00-5.77 4.178 5.985 5.985 0 00-4.008 2.895 6.046 6.046 0 00.742 7.098 5.98 5.98 0 00.516 4.911 6.046 6.046 0 006.51 2.9A6.065 6.065 0 0012.5 23.7a6.046 6.046 0 005.77-4.178 5.985 5.985 0 004.008-2.895 6.046 6.046 0 00-.742-7.098l.746.292zm-8.282 12.21a4.5 4.5 0 01-2.887-1.04l.142-.08 4.79-2.766a.78.78 0 00.394-.676v-6.748l2.024 1.17a.07.07 0 01.04.053v5.593a4.528 4.528 0 01-4.503 4.494zm-9.694-4.126a4.49 4.49 0 01-.535-3.024l.142.085 4.79 2.766a.78.78 0 00.785 0l5.848-3.377v2.34a.07.07 0 01-.028.06l-4.843 2.796a4.528 4.528 0 01-6.159-1.646zM3.073 7.839a4.492 4.492 0 012.352-1.975v5.698a.78.78 0 00.394.676l5.848 3.377-2.024 1.17a.07.07 0 01-.066.005L4.734 13.99a4.528 4.528 0 01-1.66-6.152zm16.642 3.873l-5.848-3.377 2.024-1.17a.07.07 0 01.066-.004l4.843 2.796a4.524 4.524 0 01-.7 8.15v-5.72a.78.78 0 00-.385-.675zm2.014-3.038l-.142-.085-4.79-2.766a.78.78 0 00-.785 0l-5.848 3.377V6.86a.07.07 0 01.028-.06l4.843-2.796a4.527 4.527 0 016.694 4.67zm-12.668 4.166l-2.024-1.17a.07.07 0 01-.04-.053V6.024a4.527 4.527 0 017.39-3.494l-.142.08-4.79 2.766a.78.78 0 00-.394.676v6.788zm1.1-2.38l2.6-1.502 2.6 1.502v3.004l-2.6 1.502-2.6-1.502V10.46z"/></svg>
+              </div>
+              <div class="provider-info">
+                <div class="provider-name">OpenAI</div>
+                <div class="provider-models">GPT-4o, GPT-4, o1, o3</div>
+              </div>
+              <div class="provider-caps">
+                <span class="pcap">Streaming</span>
+                <span class="pcap">Tool Use</span>
+                <span class="pcap">Vision</span>
+              </div>
+            </a>
+            <a href="docs/providers/anthropic.html" class="provider-card">
+              <div class="provider-icon provider-icon-anthropic">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.827 3.52h3.603L24 20.48h-3.603l-6.57-16.96zm-7.258 0h3.767L16.906 20.48h-3.674l-1.508-4.065H5.248L3.741 20.48H0L6.569 3.52zm1.04 3.81L5.27 13.694h4.673L7.609 7.33z"/></svg>
+              </div>
+              <div class="provider-info">
+                <div class="provider-name">Anthropic</div>
+                <div class="provider-models">Claude Opus 4, Sonnet 4, Haiku</div>
+              </div>
+              <div class="provider-caps">
+                <span class="pcap">Streaming</span>
+                <span class="pcap">Tool Use</span>
+                <span class="pcap">Vision</span>
+                <span class="pcap pcap-special">Thinking</span>
+              </div>
+            </a>
+            <div class="provider-card provider-card-custom">
+              <div class="provider-icon provider-icon-custom">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              </div>
+              <div class="provider-info">
+                <div class="provider-name">Your own</div>
+                <div class="provider-models">Any backend, any model</div>
+              </div>
+              <div class="provider-caps">
+                <span class="pcap pcap-outline">Implement one interface</span>
+              </div>
             </div>
-          </a>
-          <a href="docs/providers/anthropic.html" class="provider-card">
-            <div class="provider-name">Anthropic</div>
-            <div class="provider-models">Claude Opus 4, Sonnet 4, Haiku</div>
-            <div class="provider-caps">
-              <span class="pcap">Streaming</span>
-              <span class="pcap">Tool Use</span>
-              <span class="pcap">Vision</span>
-              <span class="pcap pcap-special">Thinking</span>
+          </div>
+          <div class="providers-interface">
+            <div class="providers-interface-header">
+              <span class="providers-interface-file">ai_provider.dart</span>
             </div>
-          </a>
+<pre><code class="language-dart">abstract class AiProvider {
+  Stream&lt;ChatEvent&gt; streamChat(
+    ChatRequest request,
+  );
+
+  bool get supportsStreaming;
+  bool get supportsToolUse;
+  bool get supportsVision;
+  bool get supportsThinking;
+}</code></pre>
+          </div>
         </div>
       </section>
 
@@ -464,13 +313,18 @@
       <footer class="hp-footer">
         <div class="footer-left">
           <span class="footer-logo">FlAI</span>
-          <span class="footer-copy">MIT License</span>
+          <span class="footer-divider">/</span>
+          <span class="footer-license">MIT License</span>
         </div>
-        <div class="footer-links">
+        <nav class="footer-nav">
           <a href="docs/index.html">Docs</a>
-          <a href="docs/components/chat-screen.html">Components</a>
+          <span class="footer-dot"></span>
           <a href="https://github.com/getflai-dev/flai" target="_blank">GitHub</a>
-        </div>
+          <span class="footer-dot"></span>
+          <a href="https://pub.dev/packages/flai_cli" target="_blank">pub.dev</a>
+          <span class="footer-dot"></span>
+          <a href="https://www.npmjs.com/package/@getflai/mcp" target="_blank">npm</a>
+        </nav>
       </footer>
 
     </div>
