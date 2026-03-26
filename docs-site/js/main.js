@@ -148,7 +148,7 @@ function injectHeader() {
   right.className = 'header-right';
 
   const ghLink = document.createElement('a');
-  ghLink.href = 'https://github.com/getflai-dev/flutter-ai-chat-components';
+  ghLink.href = 'https://github.com/getflai-dev/flai';
   ghLink.target = '_blank';
   ghLink.className = 'header-gh';
   ghLink.setAttribute('aria-label', 'GitHub');
