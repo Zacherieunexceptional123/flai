@@ -1,0 +1,35 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish flai_cli
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "3.7.0"
+
+      - name: Install dependencies
+        working-directory: packages/flai_cli
+        run: dart pub get
+
+      - name: Verify package score
+        working-directory: packages/flai_cli
+        run: dart pub publish --dry-run
+
+      - name: Publish
+        working-directory: packages/flai_cli
+        run: dart pub publish --force
+        env:
+          PUB_TOKEN: ${{ secrets.PUB_DEV_TOKEN }}
