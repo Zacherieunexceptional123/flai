@@ -64,8 +64,6 @@ jobs:
       - name: Publish
         working-directory: packages/flai_cli
         run: dart pub publish --force
-        env:
-          PUB_TOKEN: ${{ secrets.PUB_DEV_TOKEN }}
 
   # ── Step 3: Publish MCP to npm ───────────────────────────────────
   publish-mcp:
