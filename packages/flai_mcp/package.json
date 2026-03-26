@@ -1,0 +1,31 @@
+{
+  "name": "@flai/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for FlAI - AI chat components for Flutter",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "flai-mcp-server": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "mcp",
+    "flutter",
+    "ai",
+    "chat",
+    "components",
+    "flai"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thinking Indicator — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Thinking Indicator</span>
+      </div>
+
+      <h1 class="page-title">Thinking Indicator</h1>
+      <p class="page-desc">Expandable panel showing AI reasoning/thinking process with shimmer animation. Supports Anthropic's extended thinking and OpenAI's reasoning tokens.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add thinking_indicator</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/thinking_indicator/thinking_indicator.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#129504;</div>
+        <p>Thinking Indicator — collapsible panel with brain icon, "Thinking..." label, and expandable reasoning text</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+
+<pre><code class="language-dart">// As part of a message with thinking content
+MessageBubble(
+  message: Message(
+    id: '1',
+    role: MessageRole.assistant,
+    content: 'The answer is 42.',
+    timestamp: DateTime.now(),
+    thinkingContent: 'Let me reason through this step by step...',
+  ),
+)
+
+// Standalone usage
+FlaiThinkingIndicator(
+  content: thinkingText,
+  isExpanded: false,  // collapsed by default
+)</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">content</td>
+            <td class="prop-type">String</td>
+            <td class="prop-required">required</td>
+            <td>The thinking/reasoning text content.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">isExpanded</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">false</td>
+            <td>Initial expanded state. User can toggle.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="animation">Animation</h2>
+      <p>The panel uses smooth expand/collapse animation:</p>
+      <ul>
+        <li><strong>SizeTransition</strong> with <code>Curves.easeOutCubic</code> for the content reveal</li>
+        <li><strong>RotationTransition</strong> on the chevron icon (0 to 180 degrees)</li>
+        <li>Duration: 200ms</li>
+        <li>Shimmer effect on the "Thinking..." label while still streaming</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">&#9432;</span>
+        <div>The thinking indicator is automatically rendered inside <code>MessageBubble</code> when <code>message.thinkingContent</code> is set. You only need the standalone component if building a custom layout.</div>
+      </div>
+
+      <div class="page-nav">
+        <a href="code-block.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Code Block</span>
+        </a>
+        <a href="citation-card.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Citation Card &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Model Selector — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Model Selector</span>
+      </div>
+
+      <h1 class="page-title">Model Selector</h1>
+      <p class="page-desc">Dropdown selector for switching between AI models with descriptions. Displays model name, provider, and capability badges.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add model_selector</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/model_selector/model_selector.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#9881;</div>
+        <p>Model Selector — dropdown button showing current model, popover with model list and descriptions</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+
+<pre><code class="language-dart">FlaiModelSelector(
+  models: [
+    ModelOption(
+      id: 'gpt-4o',
+      name: 'GPT-4o',
+      provider: 'OpenAI',
+      description: 'Most capable model. Great for complex tasks.',
+      capabilities: ['vision', 'tools', 'streaming'],
+    ),
+    ModelOption(
+      id: 'claude-3-5-sonnet',
+      name: 'Claude 3.5 Sonnet',
+      provider: 'Anthropic',
+      description: 'Fast and intelligent. Best for most tasks.',
+      capabilities: ['vision', 'tools', 'thinking', 'streaming'],
+    ),
+    ModelOption(
+      id: 'gpt-4o-mini',
+      name: 'GPT-4o Mini',
+      provider: 'OpenAI',
+      description: 'Fast and affordable for simple tasks.',
+      capabilities: ['tools', 'streaming'],
+    ),
+  ],
+  selectedId: 'claude-3-5-sonnet',
+  onSelect: (model) {
+    switchProvider(model.id);
+  },
+)</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">models</td>
+            <td class="prop-type">List&lt;ModelOption&gt;</td>
+            <td class="prop-required">required</td>
+            <td>Available models to choose from.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">selectedId</td>
+            <td class="prop-type">String</td>
+            <td class="prop-required">required</td>
+            <td>ID of the currently selected model.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onSelect</td>
+            <td class="prop-type">Function(ModelOption)</td>
+            <td class="prop-required">required</td>
+            <td>Called when a model is selected.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">compact</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">false</td>
+            <td>Compact mode shows only the model name, no description.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="model-option">ModelOption</h2>
+<pre><code class="language-dart">class ModelOption {
+  final String id;               // Unique model ID
+  final String name;             // Display name
+  final String provider;         // Provider name (OpenAI, Anthropic)
+  final String? description;     // Short description
+  final List&lt;String&gt; capabilities; // ['vision', 'tools', 'thinking']
+}</code></pre>
+
+      <div class="page-nav">
+        <a href="conversation-list.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Conversation List</span>
+        </a>
+        <a href="token-usage.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Token Usage &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

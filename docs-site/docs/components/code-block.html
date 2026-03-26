@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Block — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Code Block</span>
+      </div>
+
+      <h1 class="page-title">Code Block</h1>
+      <p class="page-desc">Syntax-highlighted code block with copy button and language label. Renders code from AI responses with proper formatting and one-tap clipboard copy.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add code_block</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/code_block/code_block.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&lt;/&gt;</div>
+        <p>Code Block — language label header, syntax-highlighted code body, copy button</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+
+<pre><code class="language-dart">FlaiCodeBlock(
+  code: '''
+void main() {
+  runApp(const MyApp());
+}''',
+  language: 'dart',
+)
+
+// Without language detection
+FlaiCodeBlock(
+  code: 'npm install @flai/cli',
+)
+
+// With custom action on copy
+FlaiCodeBlock(
+  code: myCodeString,
+  language: 'python',
+  onCopy: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Copied!')),
+    );
+  },
+)</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">code</td>
+            <td class="prop-type">String</td>
+            <td class="prop-required">required</td>
+            <td>The code string to display.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">language</td>
+            <td class="prop-type">String?</td>
+            <td class="prop-default">null</td>
+            <td>Language label (e.g., 'dart', 'python'). Shown in header.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onCopy</td>
+            <td class="prop-type">VoidCallback?</td>
+            <td class="prop-default">null</td>
+            <td>Called after code is copied. Clipboard copy is automatic.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">showLineNumbers</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">false</td>
+            <td>Whether to show line numbers in the gutter.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="features">Features</h2>
+      <ul>
+        <li><strong>Language label</strong> — Displayed in the header bar when <code>language</code> is set</li>
+        <li><strong>Copy button</strong> — One-tap copy to clipboard with visual feedback</li>
+        <li><strong>Monospace font</strong> — Uses <code>FlaiTypography.monoFontFamily</code> (JetBrains Mono)</li>
+        <li><strong>Horizontal scroll</strong> — Long lines scroll horizontally, no wrapping</li>
+        <li><strong>Theme-aware</strong> — Background, text, and border colors from theme tokens</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="tool-call-card.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Tool Call Card</span>
+        </a>
+        <a href="thinking-indicator.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Thinking Indicator &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

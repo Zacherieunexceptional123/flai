@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Preview — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Image Preview</span>
+      </div>
+
+      <h1 class="page-title">Image Preview</h1>
+      <p class="page-desc">Image preview thumbnail with full-screen expansion dialog. Displays images from attachments or AI-generated content with zoom and pan support.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add image_preview</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/image_preview/image_preview.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#128444;</div>
+        <p>Image Preview — rounded thumbnail that expands to full-screen dialog on tap</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+
+<pre><code class="language-dart">// Network image
+FlaiImagePreview(
+  imageUrl: 'https://example.com/chart.png',
+  alt: 'Sales chart for Q4',
+)
+
+// From an attachment
+FlaiImagePreview(
+  imageUrl: attachment.url!,
+  alt: attachment.name,
+  thumbnailSize: Size(200, 150),
+)
+
+// With custom placeholder
+FlaiImagePreview(
+  imageUrl: imageUrl,
+  placeholder: CircularProgressIndicator(),
+  errorWidget: Icon(Icons.broken_image),
+)</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">imageUrl</td>
+            <td class="prop-type">String</td>
+            <td class="prop-required">required</td>
+            <td>URL of the image to display.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">alt</td>
+            <td class="prop-type">String?</td>
+            <td class="prop-default">null</td>
+            <td>Alt text for accessibility.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">thumbnailSize</td>
+            <td class="prop-type">Size?</td>
+            <td class="prop-default">null</td>
+            <td>Fixed thumbnail size. Auto-sized if null.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">placeholder</td>
+            <td class="prop-type">Widget?</td>
+            <td class="prop-default">null</td>
+            <td>Widget shown while image loads.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">errorWidget</td>
+            <td class="prop-type">Widget?</td>
+            <td class="prop-default">null</td>
+            <td>Widget shown on load error.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="features">Features</h2>
+      <ul>
+        <li><strong>Thumbnail view</strong> — Rounded corners, constrained size, tap to expand</li>
+        <li><strong>Full-screen dialog</strong> — Hero animation transition, dark overlay</li>
+        <li><strong>Zoom and pan</strong> — InteractiveViewer for pinch-to-zoom in full-screen</li>
+        <li><strong>Loading state</strong> — Placeholder widget while image loads</li>
+        <li><strong>Error handling</strong> — Fallback widget on network or decode errors</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="citation-card.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Citation Card</span>
+        </a>
+        <a href="conversation-list.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Conversation List &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

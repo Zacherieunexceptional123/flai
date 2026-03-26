@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theming — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <span>Theming</span>
+      </div>
+
+      <h1 class="page-title">Theming</h1>
+      <p class="page-desc">FlAI uses a complete design token system with 4 built-in presets. Customize colors, typography, spacing, and border radii to match your app's design.</p>
+
+      <h2 id="flai-theme">FlaiTheme</h2>
+      <p>Wrap your widget tree with <code>FlaiTheme</code> to provide the theme to all FlAI components:</p>
+
+<pre><code class="language-dart">FlaiTheme(
+  data: FlaiThemeData.dark(),
+  child: FlaiChatScreen(
+    controller: controller,
+  ),
+)</code></pre>
+
+      <p>Access the theme anywhere in the tree:</p>
+
+<pre><code class="language-dart">final theme = FlaiTheme.of(context);
+
+// Use theme tokens
+Container(
+  color: theme.colors.background,
+  padding: EdgeInsets.all(theme.spacing.md),
+  child: Text(
+    'Hello',
+    style: theme.typography.bodyBase(
+      color: theme.colors.foreground,
+    ),
+  ),
+)</code></pre>
+
+      <h2 id="presets">Theme Presets</h2>
+      <p>FlAI ships with 4 production-ready presets:</p>
+
+      <table class="props-table">
+        <thead>
+          <tr><th>Preset</th><th>Constructor</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">Light</td>
+            <td><code>FlaiThemeData.light()</code></td>
+            <td>Clean white/zinc theme. Similar to ChatGPT light mode.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">Dark</td>
+            <td><code>FlaiThemeData.dark()</code></td>
+            <td>Dark zinc theme. Deep blacks with zinc accents.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">iOS</td>
+            <td><code>FlaiThemeData.ios()</code></td>
+            <td>Apple Messages style. System blue, larger radii.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">Premium</td>
+            <td><code>FlaiThemeData.premium()</code></td>
+            <td>Linear-inspired dark theme. Indigo accents, ultra-dark background.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="color-tokens">Color Tokens</h2>
+      <p>The <code>FlaiColors</code> class defines 22 semantic color tokens used throughout all components:</p>
+
+      <h3 id="base-colors">Base Colors</h3>
+      <div class="color-swatch-grid">
+        <div class="color-swatch">
+          <div class="swatch" style="background:#09090B;"></div>
+          <span class="swatch-label">background</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#FAFAFA;"></div>
+          <span class="swatch-label">foreground</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#09090B;"></div>
+          <span class="swatch-label">card</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#FAFAFA;"></div>
+          <span class="swatch-label">cardForeground</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#27272A;"></div>
+          <span class="swatch-label">muted</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#A1A1AA;"></div>
+          <span class="swatch-label">mutedForeground</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#27272A;"></div>
+          <span class="swatch-label">border</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#27272A;"></div>
+          <span class="swatch-label">input</span>
+        </div>
+      </div>
+
+      <h3 id="semantic-colors">Semantic Colors</h3>
+      <div class="color-swatch-grid">
+        <div class="color-swatch">
+          <div class="swatch" style="background:#FAFAFA;"></div>
+          <span class="swatch-label">primary</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#18181B;"></div>
+          <span class="swatch-label">primaryForeground</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#27272A;"></div>
+          <span class="swatch-label">secondary</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#27272A;"></div>
+          <span class="swatch-label">accent</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#7F1D1D;"></div>
+          <span class="swatch-label">destructive</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#D4D4D8;"></div>
+          <span class="swatch-label">ring</span>
+        </div>
+      </div>
+
+      <h3 id="chat-colors">Chat-Specific Colors</h3>
+      <div class="color-swatch-grid">
+        <div class="color-swatch">
+          <div class="swatch" style="background:#FAFAFA;"></div>
+          <span class="swatch-label">userBubble</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#18181B;"></div>
+          <span class="swatch-label">userBubbleForeground</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#27272A;"></div>
+          <span class="swatch-label">assistantBubble</span>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background:#FAFAFA;"></div>
+          <span class="swatch-label">assistantBubbleForeground</span>
+        </div>
+      </div>
+
+      <p><em>Colors shown above are from the Dark preset.</em></p>
+
+      <h2 id="typography">Typography</h2>
+      <p>The <code>FlaiTypography</code> class provides a type scale with methods for generating <code>TextStyle</code> objects:</p>
+
+      <table class="props-table">
+        <thead>
+          <tr><th>Method</th><th>Size</th><th>Weight</th><th>Usage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="prop-name">bodySmall()</td><td>12px</td><td>400</td><td>Captions, timestamps, labels</td></tr>
+          <tr><td class="prop-name">bodyBase()</td><td>14px</td><td>400</td><td>Body text, messages</td></tr>
+          <tr><td class="prop-name">bodyLarge()</td><td>16px</td><td>400</td><td>Emphasized body text</td></tr>
+          <tr><td class="prop-name">heading()</td><td>20px</td><td>600</td><td>Section headings</td></tr>
+          <tr><td class="prop-name">headingLarge()</td><td>24px</td><td>700</td><td>Page titles</td></tr>
+          <tr><td class="prop-name">mono()</td><td>12px</td><td>400</td><td>Code, monospace text</td></tr>
+        </tbody>
+      </table>
+
+      <p>All methods accept an optional <code>color</code> parameter:</p>
+
+<pre><code class="language-dart">Text(
+  'Hello world',
+  style: theme.typography.bodyBase(
+    color: theme.colors.foreground,
+  ),
+)
+
+// Monospace with custom size
+Text(
+  'print("hello")',
+  style: theme.typography.mono(
+    color: theme.colors.accent,
+    fontSize: 14,
+  ),
+)</code></pre>
+
+      <h2 id="spacing">Spacing</h2>
+      <p>Consistent spacing tokens via <code>FlaiSpacing</code>:</p>
+
+      <table class="props-table">
+        <thead>
+          <tr><th>Token</th><th>Default</th><th>Usage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="prop-name">xs</td><td>4.0</td><td>Tight gaps, chip padding</td></tr>
+          <tr><td class="prop-name">sm</td><td>8.0</td><td>Small gaps, inline spacing</td></tr>
+          <tr><td class="prop-name">md</td><td>16.0</td><td>Standard padding, margins</td></tr>
+          <tr><td class="prop-name">lg</td><td>24.0</td><td>Section spacing</td></tr>
+          <tr><td class="prop-name">xl</td><td>32.0</td><td>Large gaps, page margins</td></tr>
+          <tr><td class="prop-name">xxl</td><td>48.0</td><td>Hero spacing</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="border-radii">Border Radii</h2>
+      <p>Border radius tokens via <code>FlaiRadius</code>:</p>
+
+      <table class="props-table">
+        <thead>
+          <tr><th>Token</th><th>Default</th><th>iOS Preset</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="prop-name">sm</td><td>4.0</td><td>8.0</td></tr>
+          <tr><td class="prop-name">md</td><td>8.0</td><td>12.0</td></tr>
+          <tr><td class="prop-name">lg</td><td>12.0</td><td>18.0</td></tr>
+          <tr><td class="prop-name">xl</td><td>16.0</td><td>22.0</td></tr>
+          <tr><td class="prop-name">full</td><td>9999</td><td>9999</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="customization">Custom Themes</h2>
+      <p>Create a fully custom theme using <code>FlaiThemeData</code> and <code>FlaiColors</code> directly:</p>
+
+<pre><code class="language-dart">final myTheme = FlaiThemeData(
+  colors: FlaiColors(
+    background: Color(0xFF0F172A),
+    foreground: Color(0xFFF8FAFC),
+    card: Color(0xFF1E293B),
+    cardForeground: Color(0xFFF8FAFC),
+    popover: Color(0xFF1E293B),
+    popoverForeground: Color(0xFFF8FAFC),
+    primary: Color(0xFF38BDF8),
+    primaryForeground: Color(0xFF0C4A6E),
+    secondary: Color(0xFF1E293B),
+    secondaryForeground: Color(0xFFF8FAFC),
+    muted: Color(0xFF334155),
+    mutedForeground: Color(0xFF94A3B8),
+    accent: Color(0xFF38BDF8),
+    accentForeground: Color(0xFFFFFFFF),
+    destructive: Color(0xFFEF4444),
+    destructiveForeground: Color(0xFFFFFFFF),
+    border: Color(0xFF1E293B),
+    input: Color(0xFF1E293B),
+    ring: Color(0xFF38BDF8),
+    userBubble: Color(0xFF38BDF8),
+    userBubbleForeground: Color(0xFF0C4A6E),
+    assistantBubble: Color(0xFF1E293B),
+    assistantBubbleForeground: Color(0xFFF8FAFC),
+  ),
+  typography: FlaiTypography(
+    fontFamily: 'SF Pro Display',
+    monoFontFamily: 'JetBrains Mono',
+  ),
+);</code></pre>
+
+      <p>Or modify an existing preset with <code>copyWith</code>:</p>
+
+<pre><code class="language-dart">final customDark = FlaiThemeData.dark().copyWith(
+  colors: FlaiColors.dark().copyWith(
+    primary: Color(0xFF38BDF8),
+    userBubble: Color(0xFF38BDF8),
+    accent: Color(0xFF38BDF8),
+  ),
+);</code></pre>
+
+      <div class="page-nav">
+        <a href="installation.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Installation</span>
+        </a>
+        <a href="components/chat-screen.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Chat Screen &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

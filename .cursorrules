@@ -1,0 +1,114 @@
+You are an expert Flutter and Dart developer working on the FlAI project -- a shadcn/ui-style component library for AI chat interfaces in Flutter.
+
+# Project Context
+
+FlAI distributes production-ready AI chat UI components as source code via a Mason-powered CLI. Components are Mason bricks under `bricks/`, the CLI is at `packages/flai_cli/`, and an example app at `example/` dogfoods everything.
+
+# Architecture
+
+- Mason bricks for code distribution (not pub.dev packages)
+- InheritedWidget-based FlaiTheme system (not MaterialTheme extensions)
+- Vanilla Flutter state management: ChangeNotifier + Streams
+- Sealed ChatEvent class for type-safe SSE streaming
+- Abstract AiProvider interface with OpenAI and Anthropic implementations
+- Raw HTTP via package:http (no SDK wrappers)
+
+# Key Patterns
+
+## Theme Access
+All widgets read styling from FlaiTheme.of(context). Never hardcode colors, font sizes, spacing, or radii.
+
+```dart
+final theme = FlaiTheme.of(context);
+// Colors: theme.colors.background, theme.colors.primary, theme.colors.userBubble, etc.
+// Typography: theme.typography.bodyBase(color: ...), theme.typography.mono(...), etc.
+// Spacing: theme.spacing.xs (4), theme.spacing.sm (8), theme.spacing.md (16), etc.
+// Radius: theme.radius.sm (4), theme.radius.md (8), theme.radius.lg (12), etc.
+```
+
+## Widget Pattern
+- Complex widgets: Widget class + Controller (ChangeNotifier) + State
+- Simple widgets: StatelessWidget or single StatefulWidget
+- Prefix widget classes with `Flai` (FlaiChatScreen, FlaiInputBar, FlaiStreamingText)
+- Data classes are unprefixed (Message, ChatEvent, ChatRequest)
+
+## Streaming Events
+```dart
+switch (event) {
+  case TextDelta(:final text): // incremental token
+  case TextDone(:final fullText): // complete text
+  case ThinkingStart(): // reasoning begins
+  case ThinkingDelta(:final text): // thinking chunk
+  case ThinkingEnd(): // reasoning done
+  case ToolCallStart(:final id, :final name): // tool invoked
+  case ToolCallDelta(:final id, :final argumentsDelta): // args chunk
+  case ToolCallEnd(:final id): // tool complete
+  case UsageUpdate(:final inputTokens, :final outputTokens): // usage
+  case ChatDone(): // stream finished
+  case ChatError(:final error): // error
+}
+```
+
+## Provider Interface
+```dart
+abstract class AiProvider {
+  Stream<ChatEvent> streamChat(ChatRequest request);
+  Future<ChatResponse> chat(ChatRequest request);
+  Future<void> cancel();
+  bool get supportsToolUse;
+  bool get supportsVision;
+  bool get supportsStreaming;
+  bool get supportsThinking;
+}
+```
+
+# Color Tokens (shadcn/ui naming)
+background, foreground, card, cardForeground, popover, popoverForeground, primary, primaryForeground, secondary, secondaryForeground, muted, mutedForeground, accent, accentForeground, destructive, destructiveForeground, border, input, ring, userBubble, userBubbleForeground, assistantBubble, assistantBubbleForeground
+
+# Code Style
+
+- Dart 3.4+ features: sealed classes, pattern matching, records
+- `const` constructors wherever possible
+- `///` doc comments on all public APIs
+- Named parameters for constructors with more than 2 parameters
+- Zero external dependencies in core; component bricks add deps only when needed
+- Relative imports within generated component structure
+- Follow `dart analyze --fatal-infos` with no warnings
+
+# File Structure for New Components
+
+When creating a new brick component:
+
+```
+bricks/<component_name>/
+  brick.yaml                    # Brick metadata and variables
+  __brick__/
+    lib/
+      {{output_dir}}/
+        components/
+          <component_name>/
+            <component_name>.dart   # Widget implementation
+```
+
+The `{{output_dir}}` variable defaults to `flai` in consumer projects.
+
+# Theme Presets
+- FlaiThemeData.light() -- Zinc light (white bg, dark text)
+- FlaiThemeData.dark() -- Zinc dark (dark bg, light text)
+- FlaiThemeData.ios() -- Apple Messages (blue bubbles, system gray, larger radii)
+- FlaiThemeData.premium() -- Linear-inspired (deep dark, indigo accents)
+
+# Monorepo
+Managed with Melos. Key commands:
+- `melos bootstrap` -- install deps
+- `melos run analyze` -- dart analyze across all packages
+- `melos run format` -- formatting check
+- `melos run test` -- run tests
+
+# Important Rules
+1. Never add external state management packages (Riverpod, Bloc, etc.)
+2. Never import from package: paths in brick templates -- use relative imports
+3. Always use FlaiTheme.of(context) for styling -- never Material theme
+4. Keep the AiProvider interface stable -- new providers must implement it exactly
+5. Brick templates must work with the {{output_dir}} variable
+6. Test all changes against the example app

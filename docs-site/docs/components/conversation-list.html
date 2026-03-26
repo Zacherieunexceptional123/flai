@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversation List — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Conversation List</span>
+      </div>
+
+      <h1 class="page-title">Conversation List</h1>
+      <p class="page-desc">Scrollable list of past conversations with search and selection. Displays conversation titles, previews, timestamps, and supports swipe-to-delete.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add conversation_list</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/conversation_list/conversation_list.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#128196;</div>
+        <p>Conversation List — search bar, scrollable list with title/preview/timestamp per row, selection highlight</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+
+<pre><code class="language-dart">FlaiConversationList(
+  conversations: conversations,
+  selectedId: currentConversationId,
+  onSelect: (conversation) {
+    setState(() {
+      currentConversationId = conversation.id;
+    });
+    loadConversation(conversation);
+  },
+  onDelete: (conversation) {
+    deleteConversation(conversation.id);
+  },
+  onNewChat: () {
+    createNewConversation();
+  },
+)</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">conversations</td>
+            <td class="prop-type">List&lt;Conversation&gt;</td>
+            <td class="prop-required">required</td>
+            <td>List of conversations to display.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">selectedId</td>
+            <td class="prop-type">String?</td>
+            <td class="prop-default">null</td>
+            <td>ID of the currently selected conversation.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onSelect</td>
+            <td class="prop-type">Function(Conversation)</td>
+            <td class="prop-required">required</td>
+            <td>Called when a conversation is tapped.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onDelete</td>
+            <td class="prop-type">Function(Conversation)?</td>
+            <td class="prop-default">null</td>
+            <td>Called when swipe-to-delete is confirmed.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onNewChat</td>
+            <td class="prop-type">VoidCallback?</td>
+            <td class="prop-default">null</td>
+            <td>Called when the "New Chat" button is tapped.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">showSearch</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">true</td>
+            <td>Whether to show the search bar.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="conversation-model">Conversation Model</h2>
+<pre><code class="language-dart">class Conversation {
+  final String id;
+  final String title;
+  final String? preview;     // Last message preview text
+  final DateTime updatedAt;
+  final String? modelId;     // Associated model ID
+}</code></pre>
+
+      <h2 id="features">Features</h2>
+      <ul>
+        <li><strong>Search</strong> — Filter conversations by title or preview text</li>
+        <li><strong>Selection</strong> — Highlighted background for the active conversation</li>
+        <li><strong>Swipe-to-delete</strong> — Dismissible with destructive action</li>
+        <li><strong>New chat button</strong> — Optional floating or header button</li>
+        <li><strong>Grouped by date</strong> — Today, Yesterday, Previous 7 Days, Older</li>
+        <li><strong>Empty state</strong> — Helpful message when no conversations exist</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="image-preview.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Image Preview</span>
+        </a>
+        <a href="model-selector.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Model Selector &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

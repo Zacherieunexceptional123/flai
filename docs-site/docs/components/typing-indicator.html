@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Indicator — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Typing Indicator</span>
+      </div>
+
+      <h1 class="page-title">Typing Indicator</h1>
+      <p class="page-desc">Animated typing indicator showing the AI is generating a response. Displays three pulsing dots in a bubble, positioned like an assistant message.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add typing_indicator</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/typing_indicator/typing_indicator.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#8226; &#8226; &#8226;</div>
+        <p>Typing Indicator — three dots pulsing in sequence inside an assistant-style bubble</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+      <p>The typing indicator is typically shown while waiting for the AI's first token. The <code>ChatScreen</code> handles this automatically, but you can use it standalone:</p>
+
+<pre><code class="language-dart">// Show while streaming hasn't started yet
+if (isStreaming &amp;&amp; streamingText.isEmpty) {
+  const FlaiTypingIndicator()
+}
+
+// The indicator requires no configuration
+const FlaiTypingIndicator()</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <p>The typing indicator has no configurable properties. It reads all styling from <code>FlaiTheme.of(context)</code> and uses the <code>assistantBubble</code> color tokens.</p>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">&#9432;</span>
+        <div>This is a <code>const</code> widget with no props — just drop it in. The animation uses three staggered <code>AnimationController</code>s for the dot bounce effect.</div>
+      </div>
+
+      <h2 id="animation">Animation Details</h2>
+      <p>The indicator uses three dots that pulse in sequence with a staggered delay:</p>
+      <ul>
+        <li>Dot 1: 0ms delay</li>
+        <li>Dot 2: 160ms delay</li>
+        <li>Dot 3: 320ms delay</li>
+        <li>Each dot animates opacity between 0.3 and 1.0 with <code>Curves.easeInOut</code></li>
+        <li>Full cycle duration: 800ms</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="streaming-text.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Streaming Text</span>
+        </a>
+        <a href="tool-call-card.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Tool Call Card &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Screen — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Chat Screen</span>
+      </div>
+
+      <h1 class="page-title">Chat Screen</h1>
+      <p class="page-desc">Full-page AI chat screen composing message bubbles, input bar, streaming text, and typing indicator into a complete chat experience.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add chat_screen</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/chat_screen/chat_screen.dart';
+import 'package:my_app/flai/components/chat_screen/chat_screen_controller.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#128172;</div>
+        <p>Chat Screen component preview — header, message list, and input bar</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+      <p>Create a <code>ChatScreenController</code> with an AI provider, then pass it to <code>FlaiChatScreen</code>:</p>
+
+<pre><code class="language-dart">class ChatPage extends StatefulWidget {
+  @override
+  State&lt;ChatPage&gt; createState() =&gt; _ChatPageState();
+}
+
+class _ChatPageState extends State&lt;ChatPage&gt; {
+  late final ChatScreenController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ChatScreenController(
+      provider: OpenAiProvider(apiKey: 'sk-...'),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FlaiTheme(
+      data: FlaiThemeData.dark(),
+      child: Scaffold(
+        body: FlaiChatScreen(
+          controller: _controller,
+          title: 'AI Assistant',
+          subtitle: 'GPT-4o',
+          onAttachmentTap: () {
+            // Handle attachment picker
+          },
+        ),
+      ),
+    );
+  }
+}</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">controller</td>
+            <td class="prop-type">ChatScreenController</td>
+            <td class="prop-required">required</td>
+            <td>Controller managing chat state and AI interaction.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">title</td>
+            <td class="prop-type">String?</td>
+            <td class="prop-default">null</td>
+            <td>Title displayed in the header.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">subtitle</td>
+            <td class="prop-type">String?</td>
+            <td class="prop-default">null</td>
+            <td>Subtitle below the title (e.g., model name).</td>
+          </tr>
+          <tr>
+            <td class="prop-name">leading</td>
+            <td class="prop-type">Widget?</td>
+            <td class="prop-default">null</td>
+            <td>Leading widget in the header (e.g., avatar).</td>
+          </tr>
+          <tr>
+            <td class="prop-name">actions</td>
+            <td class="prop-type">List&lt;Widget&gt;?</td>
+            <td class="prop-default">null</td>
+            <td>Trailing widgets in the header (e.g., settings).</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onTapCitation</td>
+            <td class="prop-type">Function(Citation)?</td>
+            <td class="prop-default">null</td>
+            <td>Called when a citation is tapped in a message.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onLongPress</td>
+            <td class="prop-type">Function(Message)?</td>
+            <td class="prop-default">null</td>
+            <td>Called when a message is long-pressed.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onAttachmentTap</td>
+            <td class="prop-type">VoidCallback?</td>
+            <td class="prop-default">null</td>
+            <td>Called when the attachment button is tapped.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">showHeader</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">true</td>
+            <td>Whether to show the header bar.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">inputPlaceholder</td>
+            <td class="prop-type">String</td>
+            <td class="prop-default">'Message...'</td>
+            <td>Placeholder text for the input field.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">emptyState</td>
+            <td class="prop-type">Widget?</td>
+            <td class="prop-default">null</td>
+            <td>Widget to display when there are no messages.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="dependencies">Dependencies</h2>
+      <p>This component automatically installs its required sub-components:</p>
+      <div class="dep-list">
+        <span class="dep-chip"><span class="dep-icon"></span> message_bubble</span>
+        <span class="dep-chip"><span class="dep-icon"></span> input_bar</span>
+        <span class="dep-chip"><span class="dep-icon"></span> typing_indicator</span>
+      </div>
+
+      <h2 id="controller">ChatScreenController</h2>
+      <p>The controller manages chat state, message history, and AI provider interaction:</p>
+
+<pre><code class="language-dart">final controller = ChatScreenController(
+  provider: myAiProvider,
+);
+
+// Send a message
+controller.sendMessage('What is Flutter?');
+
+// Access state
+controller.messages;       // List&lt;Message&gt;
+controller.isStreaming;    // bool
+controller.streamingText;  // String (partial response)
+
+// Retry last failed message
+controller.retry();
+
+// Clear conversation
+controller.clear();</code></pre>
+
+      <div class="page-nav">
+        <a href="../theming.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Theming</span>
+        </a>
+        <a href="message-bubble.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Message Bubble &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

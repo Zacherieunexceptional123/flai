@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenAI Provider — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>OpenAI Provider</span>
+      </div>
+
+      <h1 class="page-title">OpenAI Provider</h1>
+      <p class="page-desc">OpenAI API provider implementing AiProvider with streaming, tool use, and vision support. Connects to GPT-4o, GPT-4, GPT-3.5 Turbo, and other OpenAI models.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add openai_provider</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/providers/openai_provider.dart';</code></pre>
+
+      <h2 id="setup">Setup</h2>
+
+<pre><code class="language-dart">final provider = OpenAiProvider(
+  apiKey: 'sk-...',
+  model: 'gpt-4o',
+  baseUrl: 'https://api.openai.com/v1', // default
+);
+
+// Use with ChatScreenController
+final controller = ChatScreenController(
+  provider: provider,
+);</code></pre>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">&#9888;</span>
+        <div>Never hardcode API keys in your source code. Use environment variables, a secrets manager, or a backend proxy.</div>
+      </div>
+
+      <h2 id="configuration">Configuration</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">apiKey</td>
+            <td class="prop-type">String</td>
+            <td class="prop-required">required</td>
+            <td>Your OpenAI API key.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">model</td>
+            <td class="prop-type">String</td>
+            <td class="prop-default">'gpt-4o'</td>
+            <td>Model ID to use for chat completions.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">baseUrl</td>
+            <td class="prop-type">String</td>
+            <td class="prop-default">'https://api.openai.com/v1'</td>
+            <td>API base URL. Change for Azure OpenAI or proxies.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">temperature</td>
+            <td class="prop-type">double?</td>
+            <td class="prop-default">null</td>
+            <td>Sampling temperature (0.0 to 2.0).</td>
+          </tr>
+          <tr>
+            <td class="prop-name">maxTokens</td>
+            <td class="prop-type">int?</td>
+            <td class="prop-default">null</td>
+            <td>Maximum tokens in the response.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">systemPrompt</td>
+            <td class="prop-type">String?</td>
+            <td class="prop-default">null</td>
+            <td>System message prepended to all conversations.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="capabilities">Capabilities</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Capability</th><th>Supported</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="prop-name">supportsStreaming</td><td>Yes</td><td>Server-sent events via <code>stream: true</code></td></tr>
+          <tr><td class="prop-name">supportsToolUse</td><td>Yes</td><td>Function calling with JSON schema tools</td></tr>
+          <tr><td class="prop-name">supportsVision</td><td>Yes</td><td>Image inputs via base64 or URL (GPT-4o, GPT-4V)</td></tr>
+          <tr><td class="prop-name">supportsThinking</td><td>No</td><td>OpenAI does not expose reasoning tokens</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="streaming">Streaming</h2>
+      <p>The provider emits a stream of <code>ChatEvent</code> objects as the response is generated:</p>
+
+<pre><code class="language-dart">// Low-level streaming API
+final stream = provider.streamChat(ChatRequest(
+  messages: [
+    Message(
+      id: '1',
+      role: MessageRole.user,
+      content: 'Explain Flutter',
+      timestamp: DateTime.now(),
+    ),
+  ],
+));
+
+await for (final event in stream) {
+  switch (event) {
+    case TextDelta(:final text):
+      print(text); // Token-by-token text
+    case ToolCallDelta(:final toolCall):
+      print('Tool: ${toolCall.name}');
+    case UsageEvent(:final usage):
+      print('Tokens: ${usage.totalTokens}');
+    case DoneEvent():
+      print('Stream complete');
+    case ErrorEvent(:final error):
+      print('Error: $error');
+  }
+}</code></pre>
+
+      <h2 id="tool-use">Tool Use</h2>
+      <p>Define tools using the <code>ChatRequest.tools</code> parameter:</p>
+
+<pre><code class="language-dart">final request = ChatRequest(
+  messages: messages,
+  tools: [
+    Tool(
+      name: 'search_web',
+      description: 'Search the web for information',
+      parameters: {
+        'type': 'object',
+        'properties': {
+          'query': {
+            'type': 'string',
+            'description': 'Search query',
+          },
+        },
+        'required': ['query'],
+      },
+    ),
+  ],
+);</code></pre>
+
+      <h2 id="azure">Azure OpenAI</h2>
+      <p>Point to your Azure OpenAI deployment by changing the <code>baseUrl</code>:</p>
+
+<pre><code class="language-dart">final provider = OpenAiProvider(
+  apiKey: 'your-azure-key',
+  model: 'your-deployment-name',
+  baseUrl: 'https://your-resource.openai.azure.com/openai/deployments/your-deployment',
+);</code></pre>
+
+      <div class="page-nav">
+        <a href="../components/token-usage.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Token Usage</span>
+        </a>
+        <a href="anthropic.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Anthropic Provider &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

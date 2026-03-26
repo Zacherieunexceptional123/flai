@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Installation — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <span>Installation</span>
+      </div>
+
+      <h1 class="page-title">Installation</h1>
+      <p class="page-desc">Install the FlAI CLI and add components to your Flutter project. Two approaches: CLI (recommended) or manual.</p>
+
+      <h2 id="cli-installation">CLI Installation</h2>
+      <p>The FlAI CLI is the recommended way to install components. It handles dependencies, file placement, and import resolution.</p>
+
+      <h3 id="install-cli">Install the CLI</h3>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">dart pub global activate flai_cli</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">&#9432;</span>
+        <div>Make sure <code>~/.pub-cache/bin</code> is in your PATH. Run <code>dart pub global list</code> to verify the installation.</div>
+      </div>
+
+      <h3 id="initialize-project">Initialize Your Project</h3>
+      <p>Run <code>flai init</code> in your Flutter project root. This installs the core theme system, data models, and provider interface.</p>
+
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai init</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <p>The CLI will ask you for an output directory (default: <code>flai</code>). Files are placed under <code>lib/{output_dir}/</code>.</p>
+
+      <h3 id="add-components">Add Components</h3>
+      <p>Install individual components with <code>flai add</code>:</p>
+
+<pre><code class="language-bash"># Add a single component
+flai add message_bubble
+
+# Add multiple components
+flai add chat_screen input_bar streaming_text
+
+# Add a provider
+flai add openai_provider</code></pre>
+
+      <h3 id="available-components">Available Components</h3>
+      <table class="props-table">
+        <thead>
+          <tr><th>Component</th><th>Command</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="prop-name">chat_screen</td><td><code>flai add chat_screen</code></td><td>Full-page chat screen</td></tr>
+          <tr><td class="prop-name">message_bubble</td><td><code>flai add message_bubble</code></td><td>Chat message bubble</td></tr>
+          <tr><td class="prop-name">input_bar</td><td><code>flai add input_bar</code></td><td>Chat input with send button</td></tr>
+          <tr><td class="prop-name">streaming_text</td><td><code>flai add streaming_text</code></td><td>Real-time streaming text</td></tr>
+          <tr><td class="prop-name">typing_indicator</td><td><code>flai add typing_indicator</code></td><td>AI typing animation</td></tr>
+          <tr><td class="prop-name">tool_call_card</td><td><code>flai add tool_call_card</code></td><td>Tool/function call card</td></tr>
+          <tr><td class="prop-name">code_block</td><td><code>flai add code_block</code></td><td>Syntax-highlighted code</td></tr>
+          <tr><td class="prop-name">thinking_indicator</td><td><code>flai add thinking_indicator</code></td><td>AI thinking panel</td></tr>
+          <tr><td class="prop-name">citation_card</td><td><code>flai add citation_card</code></td><td>Source citation card</td></tr>
+          <tr><td class="prop-name">image_preview</td><td><code>flai add image_preview</code></td><td>Image preview with expand</td></tr>
+          <tr><td class="prop-name">conversation_list</td><td><code>flai add conversation_list</code></td><td>Conversation history list</td></tr>
+          <tr><td class="prop-name">model_selector</td><td><code>flai add model_selector</code></td><td>AI model dropdown</td></tr>
+          <tr><td class="prop-name">token_usage</td><td><code>flai add token_usage</code></td><td>Token usage display</td></tr>
+          <tr><td class="prop-name">openai_provider</td><td><code>flai add openai_provider</code></td><td>OpenAI API provider</td></tr>
+          <tr><td class="prop-name">anthropic_provider</td><td><code>flai add anthropic_provider</code></td><td>Anthropic API provider</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="manual-installation">Manual Installation</h2>
+      <p>If you prefer not to use the CLI, you can copy component files directly from the FlAI repository.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-content">
+            <h4>Clone the repository</h4>
+<pre><code class="language-bash">git clone https://github.com/your-org/flai.git</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <h4>Copy core files</h4>
+            <p>Copy <code>bricks/flai_init/__brick__/lib/flai/</code> into your project's <code>lib/flai/</code> directory.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <h4>Copy components</h4>
+            <p>Copy individual component folders from <code>bricks/{component}/__brick__/lib/flai/components/</code> into <code>lib/flai/components/</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <h4>Update imports</h4>
+            <p>Adjust import paths to match your project's package name and directory structure.</p>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="configuration">Configuration</h2>
+      <p>After running <code>flai init</code>, a <code>flai.yaml</code> file is created in your project root:</p>
+
+<pre><code class="language-yaml"># flai.yaml
+output_dir: flai          # Where FlAI files live under lib/
+components:               # Installed components (auto-managed)
+  - chat_screen
+  - message_bubble
+  - input_bar
+  - typing_indicator</code></pre>
+
+      <p>The CLI reads this file to know where to place new components and which components are already installed.</p>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">&#9889;</span>
+        <div>You can change <code>output_dir</code> during <code>flai init</code>. For example, use <code>ui/chat</code> to install under <code>lib/ui/chat/</code>.</div>
+      </div>
+
+      <div class="page-nav">
+        <a href="index.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Getting Started</span>
+        </a>
+        <a href="theming.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Theming &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -30,6 +30,10 @@ pubspec.lock
 # Superpowers brainstorm sessions
 .superpowers/
 
+# Node
+node_modules/
+dist/
+
 # Environment
 .env
 .env.*

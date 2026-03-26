@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Bubble — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Message Bubble</span>
+      </div>
+
+      <h1 class="page-title">Message Bubble</h1>
+      <p class="page-desc">Chat message bubble for user, assistant, system, and tool messages with markdown support, thinking blocks, tool call chips, citation cards, streaming cursors, and error retry actions.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add message_bubble</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/message_bubble/message_bubble.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#128488;</div>
+        <p>Message Bubble — user (right-aligned), assistant (left-aligned), system (centered), tool (compact)</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+      <p>The bubble automatically adapts its layout based on the message role:</p>
+
+<pre><code class="language-dart">// User message
+MessageBubble(
+  message: Message(
+    id: '1',
+    role: MessageRole.user,
+    content: 'What is Flutter?',
+    timestamp: DateTime.now(),
+  ),
+)
+
+// Assistant message with citations
+MessageBubble(
+  message: Message(
+    id: '2',
+    role: MessageRole.assistant,
+    content: 'Flutter is a UI toolkit...',
+    timestamp: DateTime.now(),
+    citations: [
+      Citation(title: 'Flutter Docs', url: 'https://flutter.dev'),
+    ],
+  ),
+  onTapCitation: (citation) {
+    launchUrl(Uri.parse(citation.url!));
+  },
+)
+
+// Streaming message (shows blinking cursor)
+MessageBubble(
+  message: Message(
+    id: '3',
+    role: MessageRole.assistant,
+    content: 'Flutter is a...',
+    timestamp: DateTime.now(),
+    status: MessageStatus.streaming,
+  ),
+)</code></pre>
+
+      <h2 id="message-roles">Message Roles</h2>
+      <p>The bubble renders four distinct layouts based on <code>MessageRole</code>:</p>
+
+      <table class="props-table">
+        <thead>
+          <tr><th>Role</th><th>Alignment</th><th>Style</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">user</td>
+            <td>Right-aligned</td>
+            <td>Uses <code>userBubble</code> color, rounded bottom-right corner</td>
+          </tr>
+          <tr>
+            <td class="prop-name">assistant</td>
+            <td>Left-aligned</td>
+            <td>Uses <code>assistantBubble</code> color, rounded bottom-left corner</td>
+          </tr>
+          <tr>
+            <td class="prop-name">system</td>
+            <td>Centered</td>
+            <td>Muted background, smaller text, bordered</td>
+          </tr>
+          <tr>
+            <td class="prop-name">tool</td>
+            <td>Left-aligned</td>
+            <td>Compact, bordered, with wrench icon</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="features">Features</h2>
+      <ul>
+        <li><strong>Thinking blocks</strong> — Collapsible panel showing AI reasoning when <code>message.thinkingContent</code> is set</li>
+        <li><strong>Tool call chips</strong> — Inline chips for each tool call with status indicator</li>
+        <li><strong>Citation cards</strong> — Tappable cards linking to source material</li>
+        <li><strong>Streaming cursor</strong> — Blinking cursor animation when <code>status == MessageStatus.streaming</code></li>
+        <li><strong>Error retry</strong> — Retry button on error messages when <code>onRetry</code> is provided</li>
+        <li><strong>Long press</strong> — Copy/share action when <code>onLongPress</code> is provided</li>
+        <li><strong>Timestamps</strong> — Subtle time label below each bubble</li>
+      </ul>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">message</td>
+            <td class="prop-type">Message</td>
+            <td class="prop-required">required</td>
+            <td>The message to display.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onTapCitation</td>
+            <td class="prop-type">Function(Citation)?</td>
+            <td class="prop-default">null</td>
+            <td>Called when a citation is tapped.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onRetry</td>
+            <td class="prop-type">Function(Message)?</td>
+            <td class="prop-default">null</td>
+            <td>Called when retry is tapped on an error message.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onLongPress</td>
+            <td class="prop-type">Function(Message)?</td>
+            <td class="prop-default">null</td>
+            <td>Called when the bubble is long-pressed.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="message-model">Message Model</h2>
+<pre><code class="language-dart">class Message {
+  final String id;
+  final MessageRole role;        // user, assistant, system, tool
+  final String content;
+  final DateTime timestamp;
+  final List&lt;Attachment&gt;? attachments;
+  final List&lt;ToolCall&gt;? toolCalls;
+  final String? thinkingContent;
+  final List&lt;Citation&gt;? citations;
+  final MessageStatus status;    // streaming, complete, error
+  final UsageInfo? usage;
+}</code></pre>
+
+      <div class="page-nav">
+        <a href="chat-screen.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Chat Screen</span>
+        </a>
+        <a href="input-bar.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Input Bar &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

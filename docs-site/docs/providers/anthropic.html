@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anthropic Provider — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Anthropic Provider</span>
+      </div>
+
+      <h1 class="page-title">Anthropic Provider</h1>
+      <p class="page-desc">Anthropic API provider implementing AiProvider with streaming, tool use, thinking, and vision support. Connects to Claude 4, Claude 3.5 Sonnet, Claude 3 Haiku, and other Claude models.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add anthropic_provider</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/providers/anthropic_provider.dart';</code></pre>
+
+      <h2 id="setup">Setup</h2>
+
+<pre><code class="language-dart">final provider = AnthropicProvider(
+  apiKey: 'sk-ant-...',
+  model: 'claude-sonnet-4-20250514',
+);
+
+// Use with ChatScreenController
+final controller = ChatScreenController(
+  provider: provider,
+);</code></pre>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">&#9888;</span>
+        <div>Never hardcode API keys in your source code. Use environment variables, a secrets manager, or a backend proxy.</div>
+      </div>
+
+      <h2 id="configuration">Configuration</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">apiKey</td>
+            <td class="prop-type">String</td>
+            <td class="prop-required">required</td>
+            <td>Your Anthropic API key.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">model</td>
+            <td class="prop-type">String</td>
+            <td class="prop-default">'claude-sonnet-4-20250514'</td>
+            <td>Model ID to use for messages.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">baseUrl</td>
+            <td class="prop-type">String</td>
+            <td class="prop-default">'https://api.anthropic.com'</td>
+            <td>API base URL. Change for proxies or custom deployments.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">temperature</td>
+            <td class="prop-type">double?</td>
+            <td class="prop-default">null</td>
+            <td>Sampling temperature (0.0 to 1.0).</td>
+          </tr>
+          <tr>
+            <td class="prop-name">maxTokens</td>
+            <td class="prop-type">int</td>
+            <td class="prop-default">4096</td>
+            <td>Maximum tokens in the response.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">systemPrompt</td>
+            <td class="prop-type">String?</td>
+            <td class="prop-default">null</td>
+            <td>System message for all conversations.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">enableThinking</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">false</td>
+            <td>Enable extended thinking for compatible models.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">thinkingBudget</td>
+            <td class="prop-type">int?</td>
+            <td class="prop-default">null</td>
+            <td>Max tokens for thinking. Required if <code>enableThinking</code> is true.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="capabilities">Capabilities</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Capability</th><th>Supported</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="prop-name">supportsStreaming</td><td>Yes</td><td>Server-sent events via Messages API</td></tr>
+          <tr><td class="prop-name">supportsToolUse</td><td>Yes</td><td>Tool use with JSON schema input definitions</td></tr>
+          <tr><td class="prop-name">supportsVision</td><td>Yes</td><td>Image inputs via base64 (all Claude 3+ models)</td></tr>
+          <tr><td class="prop-name">supportsThinking</td><td>Yes</td><td>Extended thinking with Claude 3.5 Sonnet and Claude 4</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="thinking">Extended Thinking</h2>
+      <p>Claude's extended thinking exposes the model's reasoning process. Enable it to show thinking indicators in the UI:</p>
+
+<pre><code class="language-dart">final provider = AnthropicProvider(
+  apiKey: apiKey,
+  model: 'claude-sonnet-4-20250514',
+  enableThinking: true,
+  thinkingBudget: 10000, // max thinking tokens
+);
+
+// The ChatEvent stream will include ThinkingDelta events
+await for (final event in provider.streamChat(request)) {
+  switch (event) {
+    case ThinkingDelta(:final text):
+      // Show in ThinkingIndicator
+      thinkingContent += text;
+    case TextDelta(:final text):
+      // Regular response text
+      responseContent += text;
+    // ...
+  }
+}</code></pre>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">&#9432;</span>
+        <div>When <code>enableThinking</code> is true, the <code>Message.thinkingContent</code> field will be populated, and the <code>MessageBubble</code> will automatically render the collapsible thinking indicator.</div>
+      </div>
+
+      <h2 id="streaming">Streaming</h2>
+      <p>The Anthropic provider uses the Messages API with server-sent events:</p>
+
+<pre><code class="language-dart">final stream = provider.streamChat(ChatRequest(
+  messages: messages,
+));
+
+await for (final event in stream) {
+  switch (event) {
+    case TextDelta(:final text):
+      print(text);
+    case ThinkingDelta(:final text):
+      print('Thinking: $text');
+    case ToolCallDelta(:final toolCall):
+      print('Tool: ${toolCall.name}');
+    case UsageEvent(:final usage):
+      print('Input: ${usage.inputTokens}, Output: ${usage.outputTokens}');
+      if (usage.cacheReadTokens != null) {
+        print('Cache read: ${usage.cacheReadTokens}');
+      }
+    case DoneEvent():
+      print('Done');
+    case ErrorEvent(:final error):
+      print('Error: $error');
+  }
+}</code></pre>
+
+      <h2 id="tool-use">Tool Use</h2>
+
+<pre><code class="language-dart">final request = ChatRequest(
+  messages: messages,
+  tools: [
+    Tool(
+      name: 'get_weather',
+      description: 'Get current weather for a location',
+      parameters: {
+        'type': 'object',
+        'properties': {
+          'location': {
+            'type': 'string',
+            'description': 'City name (e.g., San Francisco)',
+          },
+        },
+        'required': ['location'],
+      },
+    ),
+  ],
+);</code></pre>
+
+      <h2 id="caching">Prompt Caching</h2>
+      <p>The Anthropic provider automatically reports cache statistics in <code>UsageInfo</code>:</p>
+
+<pre><code class="language-dart">// Cache info is available in UsageInfo
+if (usage.cacheReadTokens != null) {
+  print('Cache read tokens: ${usage.cacheReadTokens}');
+  print('Cache creation tokens: ${usage.cacheCreationTokens}');
+}</code></pre>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">&#9889;</span>
+        <div>Prompt caching reduces costs by up to 90% for repeated system prompts and context. The <code>TokenUsage</code> component displays cache stats when available.</div>
+      </div>
+
+      <div class="page-nav">
+        <a href="openai.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; OpenAI Provider</span>
+        </a>
+        <div></div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

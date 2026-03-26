@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citation Card — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Citation Card</span>
+      </div>
+
+      <h1 class="page-title">Citation Card</h1>
+      <p class="page-desc">Inline citation card linking to source material with title and snippet. Rendered inside message bubbles when the AI provides source references.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add citation_card</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/citation_card/citation_card.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#128279;</div>
+        <p>Citation Card — link icon, title text, optional snippet, accent-tinted background</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+
+<pre><code class="language-dart">// Inside a message with citations
+MessageBubble(
+  message: Message(
+    id: '1',
+    role: MessageRole.assistant,
+    content: 'According to the Flutter docs...',
+    timestamp: DateTime.now(),
+    citations: [
+      Citation(
+        title: 'Flutter Widget Catalog',
+        url: 'https://flutter.dev/docs/development/ui/widgets',
+        snippet: 'A catalog of commonly used Flutter widgets...',
+      ),
+      Citation(
+        title: 'State Management',
+        url: 'https://flutter.dev/docs/development/data-and-backend/state-mgmt',
+      ),
+    ],
+  ),
+  onTapCitation: (citation) {
+    launchUrl(Uri.parse(citation.url!));
+  },
+)
+
+// Standalone citation card
+FlaiCitationCard(
+  citation: Citation(
+    title: 'Dart Language Tour',
+    url: 'https://dart.dev/language',
+    snippet: 'A comprehensive guide to the Dart language.',
+  ),
+  onTap: () {
+    // Open URL
+  },
+)</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">citation</td>
+            <td class="prop-type">Citation</td>
+            <td class="prop-required">required</td>
+            <td>The citation data to display.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">onTap</td>
+            <td class="prop-type">VoidCallback?</td>
+            <td class="prop-default">null</td>
+            <td>Called when the citation card is tapped.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="citation-model">Citation Model</h2>
+<pre><code class="language-dart">class Citation {
+  final String title;      // Source title (required)
+  final String? url;       // Source URL
+  final String? snippet;   // Preview text snippet
+}</code></pre>
+
+      <div class="page-nav">
+        <a href="thinking-indicator.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Thinking Indicator</span>
+        </a>
+        <a href="image-preview.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Image Preview &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

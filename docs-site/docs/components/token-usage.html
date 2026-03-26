@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Usage — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Token Usage</span>
+      </div>
+
+      <h1 class="page-title">Token Usage</h1>
+      <p class="page-desc">Widget displaying token count, usage statistics, and optional cost estimation. Shows input/output token breakdown with optional cache statistics.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add token_usage</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/token_usage/token_usage.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#128202;</div>
+        <p>Token Usage — compact row with input/output token counts, total, and optional cost</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+
+<pre><code class="language-dart">// Basic usage with message's usage info
+FlaiTokenUsage(
+  usage: message.usage!,
+)
+
+// With cost estimation
+FlaiTokenUsage(
+  usage: UsageInfo(
+    inputTokens: 1250,
+    outputTokens: 432,
+    cacheReadTokens: 800,
+  ),
+  costPerInputToken: 0.000003,   // $3/M tokens
+  costPerOutputToken: 0.000015,  // $15/M tokens
+)
+
+// Compact inline display
+FlaiTokenUsage(
+  usage: usage,
+  compact: true,
+)</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">usage</td>
+            <td class="prop-type">UsageInfo</td>
+            <td class="prop-required">required</td>
+            <td>Token usage data to display.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">costPerInputToken</td>
+            <td class="prop-type">double?</td>
+            <td class="prop-default">null</td>
+            <td>Cost per input token for cost estimation.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">costPerOutputToken</td>
+            <td class="prop-type">double?</td>
+            <td class="prop-default">null</td>
+            <td>Cost per output token for cost estimation.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">compact</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">false</td>
+            <td>Compact display with just total tokens.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="usage-model">UsageInfo Model</h2>
+<pre><code class="language-dart">class UsageInfo {
+  final int inputTokens;
+  final int outputTokens;
+  final int? cacheReadTokens;
+  final int? cacheCreationTokens;
+
+  int get totalTokens =&gt; inputTokens + outputTokens;
+}</code></pre>
+
+      <div class="page-nav">
+        <a href="model-selector.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Model Selector</span>
+        </a>
+        <a href="../providers/openai.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">OpenAI Provider &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

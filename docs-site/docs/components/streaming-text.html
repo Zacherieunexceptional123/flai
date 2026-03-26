@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streaming Text — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Docs</a>
+        <span class="sep">/</span>
+        <span>Streaming Text</span>
+      </div>
+
+      <h1 class="page-title">Streaming Text</h1>
+      <p class="page-desc">Real-time streaming text renderer with cursor animation for AI responses. Displays text as it arrives token-by-token from the AI provider.</p>
+
+      <h2 id="installation">Installation</h2>
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai add streaming_text</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <h3 id="import">Import</h3>
+<pre><code class="language-dart">import 'package:my_app/flai/components/streaming_text/streaming_text.dart';</code></pre>
+
+      <h2 id="preview">Preview</h2>
+      <div class="preview-placeholder">
+        <div class="preview-icon">&#9646;</div>
+        <p>Streaming Text — text appearing token-by-token with a blinking cursor at the end</p>
+      </div>
+
+      <h2 id="usage">Usage</h2>
+
+<pre><code class="language-dart">// Basic streaming text
+FlaiStreamingText(
+  text: partialResponse,
+  isStreaming: true,
+)
+
+// With custom text style
+FlaiStreamingText(
+  text: partialResponse,
+  isStreaming: controller.isStreaming,
+  style: theme.typography.bodyLarge(
+    color: theme.colors.foreground,
+  ),
+)
+
+// Completed (cursor hidden)
+FlaiStreamingText(
+  text: fullResponse,
+  isStreaming: false,
+)</code></pre>
+
+      <h2 id="props">Properties</h2>
+      <table class="props-table">
+        <thead>
+          <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">text</td>
+            <td class="prop-type">String</td>
+            <td class="prop-required">required</td>
+            <td>The text content to display (partial or complete).</td>
+          </tr>
+          <tr>
+            <td class="prop-name">isStreaming</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">false</td>
+            <td>Whether text is still being streamed. Shows cursor when true.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">style</td>
+            <td class="prop-type">TextStyle?</td>
+            <td class="prop-default">null</td>
+            <td>Text style. Falls back to theme's bodyBase.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">cursorColor</td>
+            <td class="prop-type">Color?</td>
+            <td class="prop-default">null</td>
+            <td>Color of the blinking cursor. Falls back to text color.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="how-it-works">How It Works</h2>
+      <p>The streaming text component renders the current text content with an animated blinking cursor at the end. As new tokens arrive from the AI provider via SSE (Server-Sent Events), the parent widget updates the <code>text</code> prop, and the component re-renders with the new content.</p>
+
+      <p>The cursor uses a <code>CurvedAnimation</code> with <code>Curves.easeInOut</code> for a smooth breathing effect, repeating every 600ms.</p>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">&#9889;</span>
+        <div>For optimal performance, use <code>StreamingText</code> inside a <code>MessageBubble</code> which handles the streaming state automatically via the <code>ChatScreenController</code>.</div>
+      </div>
+
+      <div class="page-nav">
+        <a href="input-bar.html">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">&larr; Input Bar</span>
+        </a>
+        <a href="typing-indicator.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Typing Indicator &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../../js/main.js"></script>
+</body>
+</html>

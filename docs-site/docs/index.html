@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — FlAI Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <header id="site-header" class="site-header"></header>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+  <aside id="toc" class="toc"></aside>
+
+  <main class="main-content">
+    <div class="content-inner">
+
+      <div class="breadcrumb">
+        <a href="../index.html">FlAI</a>
+        <span class="sep">/</span>
+        <span>Getting Started</span>
+      </div>
+
+      <h1 class="page-title">Getting Started</h1>
+      <p class="page-desc">Get up and running with FlAI in under 2 minutes. Install the CLI, initialize your project, and add your first component.</p>
+
+      <h2 id="prerequisites">Prerequisites</h2>
+      <ul>
+        <li><strong>Flutter</strong> 3.7 or later</li>
+        <li><strong>Dart</strong> 3.7 or later</li>
+        <li>An existing Flutter project (or create one with <code>flutter create my_app</code>)</li>
+      </ul>
+
+      <h2 id="quick-start">Quick Start</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-content">
+            <h4>Install the FlAI CLI</h4>
+            <p>The CLI handles component installation, initialization, and updates.</p>
+            <div class="install-cmd">
+              <span class="prompt">$</span>
+              <span class="cmd-text">dart pub global activate flai_cli</span>
+              <button class="copy-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-content">
+            <h4>Initialize FlAI in your project</h4>
+            <p>This creates the core theme system, models, and provider interface in your project.</p>
+            <div class="install-cmd">
+              <span class="prompt">$</span>
+              <span class="cmd-text">flai init</span>
+              <button class="copy-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+            <p>This generates:</p>
+            <ul>
+              <li><code>lib/flai/core/theme/</code> — FlaiTheme, FlaiColors, FlaiTypography, FlaiSpacing, FlaiRadius</li>
+              <li><code>lib/flai/core/models/</code> — Message, Conversation, ChatEvent, ChatRequest</li>
+              <li><code>lib/flai/providers/</code> — Abstract AiProvider interface</li>
+              <li><code>lib/flai/flai.dart</code> — Barrel export file</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-content">
+            <h4>Add your first component</h4>
+            <p>Install the full chat screen (includes message bubble, input bar, and typing indicator).</p>
+            <div class="install-cmd">
+              <span class="prompt">$</span>
+              <span class="cmd-text">flai add chat_screen</span>
+              <button class="copy-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="basic-usage">Basic Usage</h2>
+      <p>Wrap your app (or a subtree) with <code>FlaiTheme</code> and use the components:</p>
+
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:my_app/flai/flai.dart';
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: FlaiTheme(
+        data: FlaiThemeData.dark(),
+        child: Scaffold(
+          body: FlaiChatScreen(
+            controller: ChatScreenController(
+              provider: myAiProvider,
+            ),
+            title: 'AI Assistant',
+            subtitle: 'Claude 3.5 Sonnet',
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre>
+
+      <h2 id="project-structure">Project Structure</h2>
+      <p>After initialization and adding components, your project will look like:</p>
+
+<pre><code class="language-text">lib/
+  flai/
+    core/
+      theme/
+        flai_theme.dart
+        flai_colors.dart
+        flai_typography.dart
+        flai_spacing.dart
+        flai_radius.dart
+      models/
+        message.dart
+        conversation.dart
+        chat_event.dart
+        chat_request.dart
+    providers/
+      ai_provider.dart
+    components/
+      chat_screen/
+        chat_screen.dart
+        chat_screen_controller.dart
+      message_bubble/
+        message_bubble.dart
+      input_bar/
+        input_bar.dart
+      typing_indicator/
+        typing_indicator.dart
+    flai.dart</code></pre>
+
+      <h2 id="whats-next">What's Next?</h2>
+      <ul>
+        <li><a href="installation.html">Installation</a> — Detailed CLI usage and manual installation</li>
+        <li><a href="theming.html">Theming</a> — Customize colors, typography, and spacing</li>
+        <li><a href="components/chat-screen.html">Chat Screen</a> — Full-page chat component reference</li>
+        <li><a href="providers/openai.html">Providers</a> — Connect to OpenAI or Anthropic</li>
+      </ul>
+
+      <div class="page-nav">
+        <div></div>
+        <a href="installation.html" class="nav-next">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">Installation &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-dart.min.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
