@@ -41,4 +41,3 @@ dist/
 # Environment
 .env
 .env.*
-package-lock.json
