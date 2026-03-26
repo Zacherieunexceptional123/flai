@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Code Skill — FlAI Docs</title>
+  <title>Agent Skill — FlAI Docs</title>
   <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body data-layout="docs">
@@ -21,15 +21,15 @@
         <span class="sep">/</span>
         <a href="index.html">Docs</a>
         <span class="sep">/</span>
-        <span>Claude Code Skill</span>
+        <span>Agent Skill</span>
       </div>
 
-      <h1 class="page-title">Claude Code Skill</h1>
-      <p class="page-desc">A Claude Code skill that teaches Claude everything about FlAI — component selection, installation, theming, and provider setup — so you can build AI chat interfaces with natural language.</p>
+      <h1 class="page-title">Agent Skill</h1>
+      <p class="page-desc">An agent skill that teaches AI coding assistants everything about FlAI — component selection, installation, theming, and provider setup — so you can build AI chat interfaces with natural language.</p>
 
       <h2 id="what-is-a-skill">What is a Skill?</h2>
-      <p>Claude Code skills are markdown files that give Claude specialized knowledge about a tool or framework. When the FlAI skill is installed, Claude understands the full component library, knows the CLI commands, and can generate correct FlAI code without looking anything up.</p>
-      <p>Think of it as a context file that makes Claude an expert on FlAI. Instead of copying documentation into your prompts, the skill loads automatically.</p>
+      <p><a href="https://agentskills.io/specification" target="_blank">Agent Skills</a> are an open standard for giving AI coding assistants specialized knowledge about tools and frameworks. The FlAI skill follows this standard and works with Claude Code, Cursor, Codex, VS Code Copilot, and 40+ other agents.</p>
+      <p>Think of it as a context file that makes your AI assistant an expert on FlAI. Instead of copying documentation into your prompts, the skill loads automatically.</p>
 
       <h2 id="what-it-enables">What It Enables</h2>
       <p>With the skill installed, you can use natural language to work with FlAI:</p>
@@ -42,26 +42,26 @@
       </ul>
 
       <h2 id="installation">Installation</h2>
-      <p>Add the FlAI skill to your Claude Code configuration. There are two ways:</p>
+      <p>Install the FlAI skill with one command. Works with Claude Code, Cursor, Codex, and other supported agents.</p>
 
-      <h3 id="install-slash-command">Using the slash command</h3>
-      <p>In Claude Code, run:</p>
+      <h3 id="install-skills-cli">Using the Skills CLI (recommended)</h3>
+      <p>The <a href="https://github.com/vercel-labs/skills" target="_blank">Skills CLI</a> auto-detects your installed agents and places the skill in the right directory:</p>
       <div class="install-cmd">
-        <span class="prompt">&gt;</span>
-        <span class="cmd-text">/install-skill https://github.com/getflai-dev/flai/tree/main/packages/flai_skill</span>
+        <span class="prompt">$</span>
+        <span class="cmd-text">npx skills add getflai-dev/flai</span>
         <button class="copy-btn">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           Copy
         </button>
       </div>
 
-      <h3 id="install-manual">Manual installation</h3>
-      <p>Clone the skill files into your Claude Code skills directory:</p>
+      <h3 id="install-manual">Manual installation (Claude Code)</h3>
+      <p>Copy the skill file directly into your Claude Code skills directory:</p>
       <div class="install-cmd">
         <span class="prompt">$</span>
-        <span class="cmd-text">mkdir -p ~/.claude/skills && cp -r packages/flai_skill ~/.claude/skills/flai</span>
+        <span class="cmd-text">mkdir -p ~/.claude/skills/flai && curl -o ~/.claude/skills/flai/SKILL.md https://raw.githubusercontent.com/getflai-dev/flai/main/packages/flai_skill/skill.md</span>
         <button class="copy-btn">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           Copy
         </button>
       </div>
@@ -134,18 +134,18 @@
           </tr>
           <tr>
             <td class="prop-name">Works with</td>
-            <td>Claude Code only</td>
+            <td>Claude Code, Cursor, Codex, Copilot, and 40+ agents</td>
             <td>Any MCP-compatible agent</td>
           </tr>
           <tr>
             <td class="prop-name">Setup effort</td>
-            <td>One command</td>
+            <td>One command (<code>npx skills add</code>)</td>
             <td>Config file edit</td>
           </tr>
           <tr>
             <td class="prop-name">Best for</td>
-            <td>Claude Code users wanting zero-config FlAI expertise</td>
-            <td>Multi-agent workflows or non-Claude editors</td>
+            <td>Giving your AI assistant deep FlAI knowledge</td>
+            <td>Letting your AI assistant run FlAI commands directly</td>
           </tr>
         </tbody>
       </table>

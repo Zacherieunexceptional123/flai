@@ -49,7 +49,7 @@ const NAV = {
       links: [
         { label: 'App Scaffolds', href: 'docs/scaffolds.html' },
         { label: 'MCP Server', href: 'docs/mcp.html' },
-        { label: 'Claude Code Skill', href: 'docs/skill.html' },
+        { label: 'Agent Skill', href: 'docs/skill.html' },
       ],
     },
   ],
