@@ -2,15 +2,31 @@
 
 FlAI uses an InheritedWidget-based theme system with semantic color tokens inspired by shadcn/ui. This guide covers creating custom themes, modifying presets, and building theme-aware widgets.
 
+Docs: https://getflai.dev
+
 ## Built-in Presets
 
-FlAI ships with four presets:
+FlAI ships with four presets, each with its own icon style:
 
 ```dart
-FlaiThemeData.light()    // Zinc light -- clean white background, dark text
-FlaiThemeData.dark()     // Zinc dark -- dark background, light text
-FlaiThemeData.ios()      // Apple Messages -- blue user bubbles, system grays, larger radii
-FlaiThemeData.premium()  // Linear-inspired -- deep dark with indigo accents
+FlaiThemeData.light()    // Zinc light -- material rounded icons
+FlaiThemeData.dark()     // Zinc dark -- material rounded icons
+FlaiThemeData.ios()      // Apple Messages -- cupertino icons, larger radii
+FlaiThemeData.premium()  // Linear-inspired -- sharp material icons, indigo accents
+```
+
+## FlaiThemeData Structure
+
+`FlaiThemeData` composes five sub-systems: colors, icons, typography, radius, and spacing.
+
+```dart
+FlaiThemeData(
+  colors: FlaiColors(...),
+  icons: FlaiIconData.material(),   // or .cupertino(), .sharp()
+  typography: FlaiTypography(...),
+  radius: FlaiRadius(...),
+  spacing: FlaiSpacing(...),
+)
 ```
 
 ## Modifying a Preset with copyWith
@@ -21,7 +37,7 @@ The fastest way to create a branded theme is to start from a preset and override
 import 'package:flutter/material.dart';
 import 'flai/flai.dart';
 
-// Emerald-accented dark theme
+// Emerald-accented dark theme with Cupertino icons
 final emeraldDark = FlaiThemeData.dark().copyWith(
   colors: FlaiColors.dark().copyWith(
     primary: Color(0xFF10B981),
@@ -32,6 +48,7 @@ final emeraldDark = FlaiThemeData.dark().copyWith(
     userBubble: Color(0xFF10B981),
     userBubbleForeground: Color(0xFFFFFFFF),
   ),
+  icons: FlaiIconData.cupertino(),
 );
 
 // Use it:
@@ -43,7 +60,7 @@ FlaiTheme(
 
 ## Building a Theme from Scratch
 
-For full control, construct `FlaiThemeData` directly with all four sub-systems:
+For full control, construct `FlaiThemeData` directly with all five sub-systems:
 
 ### Slate Blue Dark Theme
 
@@ -85,6 +102,7 @@ final slateBlue = FlaiThemeData(
     assistantBubble: Color(0xFF1E293B),
     assistantBubbleForeground: Color(0xFFF8FAFC),
   ),
+  icons: FlaiIconData.sharp(),  // sharp icons for a modern look
   typography: FlaiTypography(
     fontFamily: 'Inter',
     monoFontFamily: 'Fira Code',
@@ -141,8 +159,33 @@ final warmLight = FlaiThemeData(
     assistantBubble: Color(0xFFFEF3C7),
     assistantBubbleForeground: Color(0xFF1C1917),
   ),
+  icons: FlaiIconData.material(),  // rounded material icons
 );
 ```
+
+## FlaiIconData -- Semantic Icon System
+
+FlAI provides 20 semantic icon fields so components never hardcode icon references. Three presets are available:
+
+| Preset | Factory | Used By |
+|---|---|---|
+| Material Rounded | `FlaiIconData.material()` | light(), dark() |
+| Apple Cupertino | `FlaiIconData.cupertino()` | ios() |
+| Material Sharp | `FlaiIconData.sharp()` | premium() |
+
+Override individual icons with `copyWith`:
+
+```dart
+final customIcons = FlaiIconData.material().copyWith(
+  send: Icons.arrow_upward_rounded,
+  chat: Icons.forum_rounded,
+  thinking: Icons.lightbulb_outline_rounded,
+);
+
+final theme = FlaiThemeData.dark().copyWith(icons: customIcons);
+```
+
+**All icon fields:** toolCall, thinking, citation, image, brokenImage, code, copy, check, close, send, attach, search, delete, add, expand, collapse, chat, model, refresh, error
 
 ## Dynamic Theme Switching
 
@@ -222,12 +265,12 @@ class CustomHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Avatar with accent color
+          // Avatar with accent color -- uses theme icons
           CircleAvatar(
             radius: 18,
             backgroundColor: theme.colors.primary,
             child: Icon(
-              Icons.auto_awesome,
+              theme.icons.model,
               size: 18,
               color: theme.colors.primaryForeground,
             ),

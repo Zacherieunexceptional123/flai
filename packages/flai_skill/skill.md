@@ -7,11 +7,13 @@ description: Install and use FlAI AI chat components in Flutter projects. Guides
 
 FlAI is a shadcn/ui-style component library for Flutter that gives you production-ready AI chat UI as source code you own. Components are distributed via a Mason-powered CLI -- you install exactly what you need, and the code lives in your project.
 
+Docs: https://getflai.dev
+
 ## When to Use This Skill
 
 - User wants to add AI chat UI to a Flutter app
 - User asks about FlAI components (message bubbles, input bars, streaming text, etc.)
-- User needs help with FlAI theming (colors, typography, spacing, radius)
+- User needs help with FlAI theming (colors, typography, spacing, radius, icons)
 - User wants to connect to OpenAI or Anthropic APIs
 - User asks about building a chat screen, conversation list, or model selector
 
@@ -36,7 +38,7 @@ flai init
 
 This runs the `flai_init` brick, generating the core foundation into your `lib/` directory:
 
-- `core/theme/` -- FlaiTheme, FlaiColors, FlaiTypography, FlaiRadius, FlaiSpacing
+- `core/theme/` -- FlaiTheme, FlaiColors, FlaiTypography, FlaiRadius, FlaiSpacing, FlaiIconData
 - `core/models/` -- Message, Conversation, ChatEvent (sealed class), ChatRequest
 - `providers/ai_provider.dart` -- Abstract AiProvider interface
 - `flai.dart` -- Barrel export file
@@ -97,9 +99,10 @@ flai add chat_screen message_bubble input_bar streaming_text typing_indicator
 
 Here is the minimal code to get a working AI chat screen:
 
-### 1. Initialize and add components
+### 1. Install and add components
 
 ```bash
+dart pub global activate flai_cli
 flai init
 flai add chat_screen openai_provider
 ```
@@ -184,14 +187,48 @@ flutter run --dart-define=OPENAI_API_KEY=sk-your-key-here
 
 FlAI uses an InheritedWidget-based theme system with semantic color tokens modeled after shadcn/ui.
 
+### FlaiThemeData
+
+`FlaiThemeData` composes five sub-systems:
+
+| Field | Type | Description |
+|---|---|---|
+| `colors` | `FlaiColors` | Semantic color tokens (background, foreground, primary, muted, userBubble, etc.) |
+| `icons` | `FlaiIconData` | Semantic icon set (20 icon fields). Defaults to `FlaiIconData.material()` |
+| `typography` | `FlaiTypography` | Font families and size scale |
+| `radius` | `FlaiRadius` | Border radius tokens |
+| `spacing` | `FlaiSpacing` | Spacing tokens |
+
 ### Built-in Presets
 
-| Preset | Factory | Description |
-|---|---|---|
-| Zinc Light | `FlaiThemeData.light()` | Clean light theme with zinc neutrals |
-| Zinc Dark | `FlaiThemeData.dark()` | Dark theme with zinc neutrals |
-| iOS | `FlaiThemeData.ios()` | Apple Messages-inspired blue bubbles, iOS system colors, larger radii |
-| Premium | `FlaiThemeData.premium()` | Linear-inspired dark theme with indigo accents |
+| Preset | Factory | Icons | Description |
+|---|---|---|---|
+| Zinc Light | `FlaiThemeData.light()` | `FlaiIconData.material()` | Clean light theme with zinc neutrals |
+| Zinc Dark | `FlaiThemeData.dark()` | `FlaiIconData.material()` | Dark theme with zinc neutrals |
+| iOS | `FlaiThemeData.ios()` | `FlaiIconData.cupertino()` | Apple Messages-inspired blue bubbles, iOS system colors, larger radii, Cupertino icons |
+| Premium | `FlaiThemeData.premium()` | `FlaiIconData.sharp()` | Linear-inspired dark theme with indigo accents, sharp Material icons |
+
+### FlaiIconData
+
+Semantic icon set with 20 fields. Components access icons via `FlaiTheme.of(context).icons` instead of hardcoding `Icons.*` or `CupertinoIcons.*`.
+
+**Presets:**
+
+- `FlaiIconData.material()` -- Material Design rounded icons (default for light/dark)
+- `FlaiIconData.cupertino()` -- Apple SF Symbols style (used by ios() preset)
+- `FlaiIconData.sharp()` -- Material Design sharp icons (used by premium() preset)
+
+**Icon fields:** toolCall, thinking, citation, image, brokenImage, code, copy, check, close, send, attach, search, delete, add, expand, collapse, chat, model, refresh, error
+
+```dart
+// Override specific icons on a preset
+final customTheme = FlaiThemeData.dark().copyWith(
+  icons: FlaiIconData.material().copyWith(
+    send: Icons.arrow_upward_rounded,
+    chat: Icons.forum_rounded,
+  ),
+);
+```
 
 ### Applying a Theme
 
@@ -239,6 +276,7 @@ final myTheme = FlaiThemeData(
     assistantBubble: Color(0xFF1E293B),
     assistantBubbleForeground: Color(0xFFF8FAFC),
   ),
+  icons: FlaiIconData.material(),  // or .cupertino(), .sharp(), or custom
   typography: FlaiTypography(
     fontFamily: 'Inter',
     monoFontFamily: 'Fira Code',
@@ -260,6 +298,7 @@ final customDark = FlaiThemeData.dark().copyWith(
     userBubble: Color(0xFF10B981),
     userBubbleForeground: Color(0xFFFFFFFF),
   ),
+  icons: FlaiIconData.cupertino(),     // swap to Cupertino icons
   typography: FlaiTypography(fontFamily: 'Inter'),
 );
 ```
@@ -267,6 +306,8 @@ final customDark = FlaiThemeData.dark().copyWith(
 ### Theme Token Reference
 
 **Colors:** background, foreground, card, cardForeground, popover, popoverForeground, primary, primaryForeground, secondary, secondaryForeground, muted, mutedForeground, accent, accentForeground, destructive, destructiveForeground, border, input, ring, userBubble, userBubbleForeground, assistantBubble, assistantBubbleForeground
+
+**Icons:** toolCall, thinking, citation, image, brokenImage, code, copy, check, close, send, attach, search, delete, add, expand, collapse, chat, model, refresh, error
 
 **Typography:** fontFamily, monoFontFamily, sm (12), base (14), lg (16), xl (20), xxl (24). Methods: `bodySmall()`, `bodyBase()`, `bodyLarge()`, `heading()`, `headingLarge()`, `mono()`
 
@@ -434,12 +475,119 @@ The streaming system uses a sealed `ChatEvent` class for type-safe event handlin
 
 ## Architecture Notes
 
-- All widgets use `FlaiTheme.of(context)` to read styling -- no hardcoded colors
+- All widgets use `FlaiTheme.of(context)` to read styling -- no hardcoded colors or icons
+- Components access icons via `theme.icons.send`, `theme.icons.copy`, etc.
 - Components use the Widget + Controller + State pattern for complex state
 - The `AiProvider` abstract class defines the interface; implementations use raw HTTP via `package:http`
 - No external state management dependency -- vanilla Flutter (`ChangeNotifier`, `Stream`)
 - Components are Mason bricks; the `{{output_dir}}` variable controls output location
 - Zero external dependencies in core; provider bricks add `package:http`
+
+## Starter Patterns
+
+### Basic Chat
+
+```bash
+dart pub global activate flai_cli
+flai init
+flai add chat_screen openai_provider
+```
+
+```dart
+FlaiTheme(
+  data: FlaiThemeData.dark(),
+  child: MaterialApp(
+    home: Scaffold(
+      body: FlaiChatScreen(
+        controller: ChatScreenController(
+          provider: OpenAiProvider(
+            apiKey: const String.fromEnvironment('OPENAI_API_KEY'),
+            model: 'gpt-4o',
+          ),
+          systemPrompt: 'You are a helpful assistant.',
+        ),
+        title: 'AI Chat',
+      ),
+    ),
+  ),
+)
+```
+
+### Multi-Model Switching
+
+```dart
+final providers = {
+  'GPT-4o': OpenAiProvider(
+    apiKey: const String.fromEnvironment('OPENAI_API_KEY'),
+    model: 'gpt-4o',
+  ),
+  'Claude': AnthropicProvider(
+    apiKey: const String.fromEnvironment('ANTHROPIC_API_KEY'),
+    model: 'claude-sonnet-4-20250514',
+  ),
+};
+
+// Swap provider at runtime:
+void switchModel(String name) {
+  _controller.dispose();
+  setState(() {
+    _controller = ChatScreenController(
+      provider: providers[name]!,
+      systemPrompt: 'You are a helpful assistant.',
+    );
+  });
+}
+```
+
+### Tool Calling
+
+```dart
+final controller = ChatScreenController(
+  provider: OpenAiProvider(
+    apiKey: const String.fromEnvironment('OPENAI_API_KEY'),
+    model: 'gpt-4o',
+  ),
+  systemPrompt: 'You can look up weather.',
+  tools: [
+    ToolDefinition(
+      name: 'get_weather',
+      description: 'Get weather for a city',
+      parameters: {
+        'type': 'object',
+        'properties': {
+          'city': {'type': 'string', 'description': 'City name'},
+        },
+        'required': ['city'],
+      },
+    ),
+  ],
+  onToolCall: (name, args) async {
+    if (name == 'get_weather') {
+      return '{"temp": 72, "condition": "sunny"}';
+    }
+    return '{"error": "unknown tool"}';
+  },
+);
+```
+
+### Custom Theme
+
+```dart
+final brandTheme = FlaiThemeData.dark().copyWith(
+  colors: FlaiColors.dark().copyWith(
+    primary: Color(0xFF10B981),
+    userBubble: Color(0xFF10B981),
+    userBubbleForeground: Color(0xFFFFFFFF),
+  ),
+  icons: FlaiIconData.cupertino(),
+  typography: FlaiTypography(fontFamily: 'Inter', monoFontFamily: 'Fira Code'),
+);
+
+FlaiTheme(
+  data: brandTheme,
+  child: MaterialApp(home: ChatPage()),
+)
+```
 
 ## Common Patterns
 
@@ -506,4 +654,17 @@ FlaiChatScreen(
     ],
   ),
 )
+```
+
+### Using Theme Icons in Custom Widgets
+
+```dart
+Widget build(BuildContext context) {
+  final theme = FlaiTheme.of(context);
+
+  return IconButton(
+    icon: Icon(theme.icons.send, color: theme.colors.primary),
+    onPressed: onSend,
+  );
+}
 ```

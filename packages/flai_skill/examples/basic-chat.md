@@ -10,7 +10,9 @@ flai init
 flai add chat_screen openai_provider
 ```
 
-This installs the core theme system, data models, the full chat screen (which includes message_bubble, input_bar, streaming_text, and typing_indicator), and the OpenAI provider.
+This installs the core theme system (including FlaiIconData), data models, the full chat screen (which includes message_bubble, input_bar, streaming_text, and typing_indicator), and the OpenAI provider.
+
+Docs: https://getflai.dev
 
 ## Step 2: main.dart
 
@@ -103,6 +105,7 @@ flutter run --dart-define=OPENAI_API_KEY=sk-your-key-here
 - Input bar with Enter-to-send on desktop, multi-line support
 - Error display with retry button if the API call fails
 - Timestamps on each message
+- Theme-consistent icons via FlaiIconData (send, copy, error, etc.)
 
 ## Extending the Basic Setup
 
@@ -118,7 +121,7 @@ FlaiChatScreen(
       builder: (context, _) {
         if (!_controller.isStreaming) return const SizedBox.shrink();
         return IconButton(
-          icon: const Icon(Icons.stop_circle_outlined),
+          icon: Icon(FlaiTheme.of(context).icons.close),
           onPressed: _controller.cancel,
         );
       },
@@ -154,7 +157,7 @@ FlaiChatScreen(
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            leading: const Icon(Icons.copy),
+            leading: Icon(FlaiTheme.of(context).icons.copy),
             title: const Text('Copy'),
             onTap: () {
               Clipboard.setData(ClipboardData(text: message.content));

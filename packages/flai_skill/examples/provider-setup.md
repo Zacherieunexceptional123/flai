@@ -2,6 +2,8 @@
 
 FlAI uses an abstract `AiProvider` interface with concrete implementations for OpenAI and Anthropic. Both providers use raw HTTP via `package:http` with no SDK dependencies.
 
+Docs: https://getflai.dev
+
 ## The AiProvider Interface
 
 ```dart
@@ -22,6 +24,7 @@ abstract class AiProvider {
 ### Installation
 
 ```bash
+dart pub global activate flai_cli
 flai add openai_provider
 ```
 
@@ -95,6 +98,7 @@ final provider = OpenAiProvider(
 ### Installation
 
 ```bash
+dart pub global activate flai_cli
 flai add anthropic_provider
 ```
 

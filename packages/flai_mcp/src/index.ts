@@ -449,6 +449,8 @@ const THEME_INFO = {
       "FlaiTypography — bodyBase(), bodySmall(), heading(), label(), mono() methods that return TextStyle",
     radius: "FlaiRadius — sm, md, lg, xl, full (double values for BorderRadius)",
     spacing: "FlaiSpacing — xs, sm, md, lg, xl (double values for padding/margin)",
+    icons:
+      "FlaiIconData — icon data system with 3 presets: `.material()` (Material Design icons), `.cupertino()` (SF Symbols-style icons), `.sharp()` (sharp-edged icon variants). Access via FlaiTheme.of(context).icons",
   },
   customization: `// Wrap your widget tree with FlaiTheme
 FlaiTheme(
@@ -624,7 +626,7 @@ const server = new McpServer({
 
 server.tool(
   "list_components",
-  "Lists all available FlAI components with descriptions and categories. Returns the full component registry (15 components) grouped by category: Chat Essentials, AI Widgets, Conversation, and Providers.",
+  "Lists all available FlAI components with descriptions and categories. Returns the full component registry grouped by category: Chat Essentials, AI Widgets, Conversation, and Providers.",
   {},
   async () => {
     return {
@@ -896,6 +898,615 @@ server.tool(
     lines.push("```dart");
     lines.push(THEME_INFO.customization);
     lines.push("```");
+
+    return {
+      content: [{ type: "text", text: lines.join("\n") }],
+    };
+  }
+);
+
+// ── Tool: scaffold_chat_app ────────────────────────────────────────────────
+
+server.tool(
+  "scaffold_chat_app",
+  "Generates a complete main.dart code snippet showing how to set up a full chat app with FlAI using the specified AI provider and theme. Does NOT run any commands — returns code for the user to copy into their project.",
+  {
+    provider: z
+      .enum(["openai", "anthropic"])
+      .describe("AI provider to use: 'openai' or 'anthropic'"),
+    theme: z
+      .enum(["light", "dark", "ios", "premium"])
+      .default("dark")
+      .describe("Theme preset to use (default: 'dark')"),
+  },
+  async ({ provider, theme }) => {
+    const themeFactory: Record<string, string> = {
+      light: "FlaiThemeData.light()",
+      dark: "FlaiThemeData.dark()",
+      ios: "FlaiThemeData.ios()",
+      premium: "FlaiThemeData.premium()",
+    };
+
+    const providerImport =
+      provider === "openai"
+        ? "import 'package:your_app/flai/providers/openai_provider.dart';"
+        : "import 'package:your_app/flai/providers/anthropic_provider.dart';";
+
+    const providerSetup =
+      provider === "openai"
+        ? `  // Create the OpenAI provider
+  final aiProvider = OpenAiProvider(
+    apiKey: const String.fromEnvironment('OPENAI_API_KEY'),
+    model: 'gpt-4o',
+  );`
+        : `  // Create the Anthropic provider
+  final aiProvider = AnthropicProvider(
+    apiKey: const String.fromEnvironment('ANTHROPIC_API_KEY'),
+    model: 'claude-sonnet-4-20250514',
+    thinkingBudgetTokens: 10000,
+  );`;
+
+    const envFlag =
+      provider === "openai"
+        ? "flutter run --dart-define=OPENAI_API_KEY=sk-..."
+        : "flutter run --dart-define=ANTHROPIC_API_KEY=sk-ant-...";
+
+    const code = `import 'package:flutter/material.dart';
+import 'package:your_app/flai/flai.dart';
+${providerImport}
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FlaiTheme(
+      data: ${themeFactory[theme]},
+      child: MaterialApp(
+        title: 'FlAI Chat',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(useMaterial3: true),
+        home: const ChatPage(),
+      ),
+    );
+  }
+}
+
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  late final ChatScreenController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+${providerSetup}
+
+    // Create the chat controller
+    _controller = ChatScreenController(provider: aiProvider);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FlaiChatScreen(
+        controller: _controller,
+        title: 'AI Assistant',
+        subtitle: '${provider === "openai" ? "GPT-4o" : "Claude Sonnet 4"}',
+        inputPlaceholder: 'Ask anything...',
+        emptyState: const Center(
+          child: Text('Start a conversation!'),
+        ),
+      ),
+    );
+  }
+}`;
+
+    const lines: string[] = [
+      `# FlAI Chat App — ${provider === "openai" ? "OpenAI" : "Anthropic"} + ${theme} theme`,
+      "",
+      "## Prerequisites",
+      "",
+      "```bash",
+      "# Initialize FlAI in your Flutter project",
+      "flai init",
+      "",
+      "# Install required components",
+      "flai add chat_screen",
+      `flai add ${provider}_provider`,
+      "```",
+      "",
+      "## main.dart",
+      "",
+      "```dart",
+      code,
+      "```",
+      "",
+      "## Run",
+      "",
+      "```bash",
+      envFlag,
+      "```",
+    ];
+
+    return {
+      content: [{ type: "text", text: lines.join("\n") }],
+    };
+  }
+);
+
+// ── Tool: get_starter_template ────────────────────────────────────────────
+
+const STARTER_TEMPLATES: Record<
+  string,
+  { title: string; description: string; code: string; setup: string }
+> = {
+  basic_chat: {
+    title: "Basic Chat",
+    description:
+      "Minimal chat app with a single provider and default settings.",
+    setup: `flai init
+flai add chat_screen
+flai add openai_provider`,
+    code: `import 'package:flutter/material.dart';
+import 'package:your_app/flai/flai.dart';
+import 'package:your_app/flai/providers/openai_provider.dart';
+
+void main() => runApp(const BasicChatApp());
+
+class BasicChatApp extends StatelessWidget {
+  const BasicChatApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FlaiTheme(
+      data: FlaiThemeData.dark(),
+      child: MaterialApp(
+        home: const ChatPage(),
+      ),
+    );
+  }
+}
+
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  late final ChatScreenController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ChatScreenController(
+      provider: OpenAiProvider(
+        apiKey: const String.fromEnvironment('OPENAI_API_KEY'),
+        model: 'gpt-4o',
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FlaiChatScreen(
+        controller: _controller,
+        title: 'Chat',
+      ),
+    );
+  }
+}`,
+  },
+
+  multi_model: {
+    title: "Multi-Model Chat",
+    description:
+      "Chat app with a model selector that switches between OpenAI and Anthropic providers at runtime.",
+    setup: `flai init
+flai add chat_screen
+flai add model_selector
+flai add openai_provider
+flai add anthropic_provider`,
+    code: `import 'package:flutter/material.dart';
+import 'package:your_app/flai/flai.dart';
+import 'package:your_app/flai/providers/openai_provider.dart';
+import 'package:your_app/flai/providers/anthropic_provider.dart';
+
+void main() => runApp(const MultiModelApp());
+
+class MultiModelApp extends StatelessWidget {
+  const MultiModelApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FlaiTheme(
+      data: FlaiThemeData.dark(),
+      child: MaterialApp(home: const MultiModelChat()),
+    );
+  }
+}
+
+class MultiModelChat extends StatefulWidget {
+  const MultiModelChat({super.key});
+
+  @override
+  State<MultiModelChat> createState() => _MultiModelChatState();
+}
+
+class _MultiModelChatState extends State<MultiModelChat> {
+  late ChatScreenController _controller;
+  String _selectedModelId = 'gpt-4o';
+
+  final _models = [
+    FlaiModelOption(
+      id: 'gpt-4o',
+      name: 'GPT-4o',
+      provider: 'OpenAI',
+      contextWindow: 128000,
+      capabilities: ['vision', 'tool_use'],
+    ),
+    FlaiModelOption(
+      id: 'claude-sonnet-4-20250514',
+      name: 'Claude Sonnet 4',
+      provider: 'Anthropic',
+      contextWindow: 200000,
+      capabilities: ['vision', 'tool_use', 'thinking'],
+    ),
+  ];
+
+  AiProvider _providerFor(String modelId) {
+    if (modelId.startsWith('claude')) {
+      return AnthropicProvider(
+        apiKey: const String.fromEnvironment('ANTHROPIC_API_KEY'),
+        model: modelId,
+      );
+    }
+    return OpenAiProvider(
+      apiKey: const String.fromEnvironment('OPENAI_API_KEY'),
+      model: modelId,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ChatScreenController(
+      provider: _providerFor(_selectedModelId),
+    );
+  }
+
+  void _onModelSelected(FlaiModelOption model) {
+    setState(() {
+      _selectedModelId = model.id;
+      _controller.dispose();
+      _controller = ChatScreenController(
+        provider: _providerFor(model.id),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FlaiChatScreen(
+        controller: _controller,
+        title: 'Multi-Model Chat',
+        actions: [
+          FlaiModelSelector(
+            models: _models,
+            selectedModelId: _selectedModelId,
+            onSelect: _onModelSelected,
+          ),
+        ],
+      ),
+    );
+  }
+}`,
+  },
+
+  tool_calling: {
+    title: "Tool Calling",
+    description:
+      "Chat app that demonstrates tool use / function calling with AI, including a weather tool example.",
+    setup: `flai init
+flai add chat_screen
+flai add tool_call_card
+flai add openai_provider`,
+    code: `import 'package:flutter/material.dart';
+import 'package:your_app/flai/flai.dart';
+import 'package:your_app/flai/providers/openai_provider.dart';
+
+void main() => runApp(const ToolCallingApp());
+
+class ToolCallingApp extends StatelessWidget {
+  const ToolCallingApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FlaiTheme(
+      data: FlaiThemeData.dark(),
+      child: MaterialApp(home: const ToolCallingChat()),
+    );
+  }
+}
+
+class ToolCallingChat extends StatefulWidget {
+  const ToolCallingChat({super.key});
+
+  @override
+  State<ToolCallingChat> createState() => _ToolCallingChatState();
+}
+
+class _ToolCallingChatState extends State<ToolCallingChat> {
+  late final ChatScreenController _controller;
+
+  // Define tools the AI can call
+  final _tools = [
+    ToolDefinition(
+      name: 'get_weather',
+      description: 'Get current weather for a city',
+      parameters: {
+        'type': 'object',
+        'properties': {
+          'city': {
+            'type': 'string',
+            'description': 'City name',
+          },
+        },
+        'required': ['city'],
+      },
+    ),
+  ];
+
+  // Handle tool calls from the AI
+  Future<String> _handleToolCall(String name, Map<String, dynamic> args) async {
+    switch (name) {
+      case 'get_weather':
+        final city = args['city'] as String;
+        // Replace with real API call
+        return '{"city": "\$city", "temp": 22, "condition": "sunny"}';
+      default:
+        return '{"error": "Unknown tool: \$name"}';
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ChatScreenController(
+      provider: OpenAiProvider(
+        apiKey: const String.fromEnvironment('OPENAI_API_KEY'),
+        model: 'gpt-4o',
+      ),
+      tools: _tools,
+      onToolCall: _handleToolCall,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FlaiChatScreen(
+        controller: _controller,
+        title: 'Tool Calling Demo',
+        subtitle: 'Try: "What\\'s the weather in Tokyo?"',
+      ),
+    );
+  }
+}`,
+  },
+
+  custom_theme: {
+    title: "Custom Theme",
+    description:
+      "Demonstrates custom theming with brand colors, custom typography, and a theme toggle between light and dark modes.",
+    setup: `flai init
+flai add chat_screen
+flai add openai_provider`,
+    code: `import 'package:flutter/material.dart';
+import 'package:your_app/flai/flai.dart';
+import 'package:your_app/flai/providers/openai_provider.dart';
+
+void main() => runApp(const CustomThemeApp());
+
+// Define brand colors
+class BrandColors {
+  static const indigo = Color(0xFF6366F1);
+  static const violet = Color(0xFF8B5CF6);
+  static const slate50 = Color(0xFFF8FAFC);
+  static const slate900 = Color(0xFF0F172A);
+  static const slate800 = Color(0xFF1E293B);
+}
+
+// Custom light theme
+final brandLight = FlaiThemeData(
+  colors: FlaiColors.light().copyWith(
+    primary: BrandColors.indigo,
+    primaryForeground: Colors.white,
+    accent: BrandColors.violet,
+    userBubble: BrandColors.indigo,
+    userBubbleForeground: Colors.white,
+  ),
+  typography: FlaiTypography(
+    fontFamily: 'Inter',
+    monoFontFamily: 'JetBrains Mono',
+  ),
+  radius: const FlaiRadius(sm: 6, md: 10, lg: 16, xl: 24, full: 9999),
+  spacing: const FlaiSpacing(xs: 4, sm: 8, md: 16, lg: 24, xl: 32),
+);
+
+// Custom dark theme
+final brandDark = FlaiThemeData(
+  colors: FlaiColors.dark().copyWith(
+    background: BrandColors.slate900,
+    card: BrandColors.slate800,
+    primary: BrandColors.indigo,
+    primaryForeground: Colors.white,
+    accent: BrandColors.violet,
+    userBubble: BrandColors.indigo,
+    userBubbleForeground: Colors.white,
+  ),
+  typography: FlaiTypography(
+    fontFamily: 'Inter',
+    monoFontFamily: 'JetBrains Mono',
+  ),
+  radius: const FlaiRadius(sm: 6, md: 10, lg: 16, xl: 24, full: 9999),
+  spacing: const FlaiSpacing(xs: 4, sm: 8, md: 16, lg: 24, xl: 32),
+);
+
+class CustomThemeApp extends StatefulWidget {
+  const CustomThemeApp({super.key});
+
+  @override
+  State<CustomThemeApp> createState() => _CustomThemeAppState();
+}
+
+class _CustomThemeAppState extends State<CustomThemeApp> {
+  bool _isDark = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlaiTheme(
+      data: _isDark ? brandDark : brandLight,
+      child: MaterialApp(
+        theme: _isDark ? ThemeData.dark() : ThemeData.light(),
+        home: ChatPage(
+          isDark: _isDark,
+          onToggleTheme: () => setState(() => _isDark = !_isDark),
+        ),
+      ),
+    );
+  }
+}
+
+class ChatPage extends StatefulWidget {
+  const ChatPage({
+    super.key,
+    required this.isDark,
+    required this.onToggleTheme,
+  });
+
+  final bool isDark;
+  final VoidCallback onToggleTheme;
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  late final ChatScreenController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ChatScreenController(
+      provider: OpenAiProvider(
+        apiKey: const String.fromEnvironment('OPENAI_API_KEY'),
+        model: 'gpt-4o',
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FlaiChatScreen(
+        controller: _controller,
+        title: 'Branded Chat',
+        actions: [
+          IconButton(
+            icon: Icon(widget.isDark ? Icons.light_mode : Icons.dark_mode),
+            onPressed: widget.onToggleTheme,
+          ),
+        ],
+      ),
+    );
+  }
+}`,
+  },
+};
+
+server.tool(
+  "get_starter_template",
+  "Returns complete starter code for common FlAI patterns: basic_chat (minimal setup), multi_model (model switching), tool_calling (function calling), custom_theme (brand theming with light/dark toggle).",
+  {
+    template: z
+      .enum(["basic_chat", "multi_model", "tool_calling", "custom_theme"])
+      .describe("Template to generate: 'basic_chat', 'multi_model', 'tool_calling', or 'custom_theme'"),
+  },
+  async ({ template }) => {
+    const tmpl = STARTER_TEMPLATES[template];
+    if (!tmpl) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error: Unknown template "${template}". Available: ${Object.keys(STARTER_TEMPLATES).join(", ")}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+
+    const lines: string[] = [
+      `# ${tmpl.title} Starter Template`,
+      "",
+      tmpl.description,
+      "",
+      "## Setup",
+      "",
+      "```bash",
+      tmpl.setup,
+      "```",
+      "",
+      "## Code",
+      "",
+      "```dart",
+      tmpl.code,
+      "```",
+    ];
 
     return {
       content: [{ type: "text", text: lines.join("\n") }],

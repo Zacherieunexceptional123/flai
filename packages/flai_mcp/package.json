@@ -1,5 +1,5 @@
 {
-  "name": "@flai/mcp-server",
+  "name": "@getflai/mcp",
   "version": "0.1.0",
   "description": "MCP server for FlAI - AI chat components for Flutter",
   "main": "dist/index.js",
@@ -7,6 +7,10 @@
   "bin": {
     "flai-mcp-server": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
@@ -20,7 +24,17 @@
     "components",
     "flai"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getflai-dev/flai.git",
+    "directory": "packages/flai_mcp"
+  },
+  "homepage": "https://getflai.dev",
+  "author": "FlAI <hello@getflai.dev>",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
