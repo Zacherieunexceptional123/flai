@@ -45,9 +45,33 @@
 <pre><code class="language-dart">import 'package:my_app/flai/components/conversation_list/conversation_list.dart';</code></pre>
 
       <h2 id="preview">Preview</h2>
-      <div class="preview-placeholder">
-        <div class="preview-icon">&#128196;</div>
-        <p>Conversation List — search bar, scrollable list with title/preview/timestamp per row, selection highlight</p>
+      <div class="component-preview">
+        <div class="preview-label">Preview</div>
+        <div class="preview-frame" style="padding:0;">
+          <div class="demo-conversation-list">
+            <div style="padding:10px 14px;border-bottom:1px solid #27272A;">
+              <div class="demo-input-bar" style="padding:6px 10px;">
+                <span style="color:#52525B;font-size:14px;">&#128269;</span>
+                <div class="demo-input-field" style="font-size:12px;">Search conversations...</div>
+              </div>
+            </div>
+            <div class="demo-conv-item selected">
+              <div class="demo-conv-icon">&#128172;</div>
+              <div class="demo-conv-text"><div class="demo-conv-title">REST API in Dart</div><div class="demo-conv-preview">You: How do I add middleware?</div></div>
+              <div class="demo-conv-time">2m</div>
+            </div>
+            <div class="demo-conv-item">
+              <div class="demo-conv-icon">&#128172;</div>
+              <div class="demo-conv-text"><div class="demo-conv-title">Flutter state management</div><div class="demo-conv-preview">Riverpod is recommended for...</div></div>
+              <div class="demo-conv-time">1h</div>
+            </div>
+            <div class="demo-conv-item">
+              <div class="demo-conv-icon">&#128172;</div>
+              <div class="demo-conv-text"><div class="demo-conv-title">Database design</div><div class="demo-conv-preview">For your schema, I suggest...</div></div>
+              <div class="demo-conv-time">1d</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <h2 id="usage">Usage</h2>

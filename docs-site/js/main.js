@@ -95,7 +95,33 @@ function injectHeader() {
   logoLink.className = 'header-logo';
   const badge = document.createElement('span');
   badge.className = 'logo-badge';
-  badge.textContent = 'F';
+  const logoSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  logoSvg.setAttribute('viewBox', '0 0 100 100');
+  logoSvg.setAttribute('width', '18');
+  logoSvg.setAttribute('height', '18');
+  logoSvg.setAttribute('fill', 'none');
+  const logoDefs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  const logoGrad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+  logoGrad.setAttribute('id', 'logo-grad');
+  logoGrad.setAttribute('x1', '0%'); logoGrad.setAttribute('y1', '0%');
+  logoGrad.setAttribute('x2', '100%'); logoGrad.setAttribute('y2', '100%');
+  const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop1.setAttribute('offset', '0%'); stop1.setAttribute('stop-color', '#6366F1');
+  const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop2.setAttribute('offset', '100%'); stop2.setAttribute('stop-color', '#8B5CF6');
+  logoGrad.appendChild(stop1); logoGrad.appendChild(stop2);
+  logoDefs.appendChild(logoGrad);
+  logoSvg.appendChild(logoDefs);
+  const wing1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  wing1.setAttribute('d', 'M50 10 L90 50 L72 68 L32 28 Z');
+  wing1.setAttribute('fill', 'url(#logo-grad)');
+  logoSvg.appendChild(wing1);
+  const wing2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  wing2.setAttribute('d', 'M28 32 L68 72 L50 90 L10 50 Z');
+  wing2.setAttribute('fill', 'url(#logo-grad)');
+  wing2.setAttribute('opacity', '0.75');
+  logoSvg.appendChild(wing2);
+  badge.appendChild(logoSvg);
   logoLink.appendChild(badge);
   logoLink.appendChild(document.createTextNode(' FlAI'));
   inner.appendChild(logoLink);
@@ -122,7 +148,7 @@ function injectHeader() {
   right.className = 'header-right';
 
   const ghLink = document.createElement('a');
-  ghLink.href = 'https://github.com/your-org/flai';
+  ghLink.href = 'https://github.com/aphaiboon/flutter-ai-chat-components';
   ghLink.target = '_blank';
   ghLink.className = 'header-gh';
   ghLink.setAttribute('aria-label', 'GitHub');
@@ -352,8 +378,18 @@ function enhanceCodeBlocks() {
   });
 }
 
+// ---- Inject Favicon -----------------------------------------
+function injectFavicon() {
+  const link = document.createElement('link');
+  link.rel = 'icon';
+  link.type = 'image/svg+xml';
+  link.href = resolvePath('favicon.svg');
+  document.head.appendChild(link);
+}
+
 // ---- Init ---------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
+  injectFavicon();
   injectHeader();
   injectSidebar();
   injectTOC();

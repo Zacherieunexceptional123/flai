@@ -45,9 +45,29 @@
 <pre><code class="language-dart">import 'package:my_app/flai/components/token_usage/token_usage.dart';</code></pre>
 
       <h2 id="preview">Preview</h2>
-      <div class="preview-placeholder">
-        <div class="preview-icon">&#128202;</div>
-        <p>Token Usage — compact row with input/output token counts, total, and optional cost</p>
+      <div class="component-preview">
+        <div class="preview-label">Preview</div>
+        <div class="preview-frame" style="gap:16px;">
+          <div class="demo-token-usage">
+            <div class="demo-token-stat">&#8593; <span class="demo-token-value">1,245</span></div>
+            <div class="demo-token-stat">&#8595; <span class="demo-token-value">832</span></div>
+            <div style="margin-left:auto;font-size:12px;color:#71717A;">$0.003</div>
+          </div>
+          <div style="background:#18181B;border:1px solid #27272A;border-radius:10px;padding:14px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:12px;color:#71717A;">Token Usage</span>
+              <span style="font-size:12px;color:#A1A1AA;">2,077 / 4,096</span>
+            </div>
+            <div style="height:6px;background:#27272A;border-radius:3px;overflow:hidden;">
+              <div style="width:51%;height:100%;background:#818CF8;border-radius:3px;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:12px;">
+              <div><span style="color:#71717A;">Input:</span> <span style="color:#FAFAFA;font-family:'JetBrains Mono',monospace;font-size:11px;">1,245</span></div>
+              <div><span style="color:#71717A;">Output:</span> <span style="color:#FAFAFA;font-family:'JetBrains Mono',monospace;font-size:11px;">832</span></div>
+              <div><span style="color:#71717A;">Cost:</span> <span style="color:#FAFAFA;font-family:'JetBrains Mono',monospace;font-size:11px;">$0.003</span></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <h2 id="usage">Usage</h2>

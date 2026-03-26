@@ -45,9 +45,30 @@
 <pre><code class="language-dart">import 'package:my_app/flai/components/tool_call_card/tool_call_card.dart';</code></pre>
 
       <h2 id="preview">Preview</h2>
-      <div class="preview-placeholder">
-        <div class="preview-icon">&#128295;</div>
-        <p>Tool Call Card — function name, loading spinner, expandable arguments/result JSON</p>
+      <div class="component-preview">
+        <div class="preview-label">Preview</div>
+        <div class="preview-frame">
+          <div class="demo-tool-call">
+            <div class="demo-tool-header">
+              <span style="font-size:14px;">&#128295;</span>
+              <span style="font-family:'JetBrains Mono',monospace;color:#c4b5fd;">get_weather</span>
+              <span style="margin-left:auto;color:#4ade80;">&#10003;</span>
+            </div>
+            <div class="demo-tool-body">{"city": "San Francisco"}</div>
+            <div class="demo-tool-result">
+              <span style="color:#71717A;font-size:11px;">Result:</span><br>
+              <span>{"temp": 18, "condition": "sunny", "humidity": 65}</span>
+            </div>
+          </div>
+          <div class="demo-tool-call" style="margin-top:8px;">
+            <div class="demo-tool-header">
+              <span style="font-size:14px;">&#128295;</span>
+              <span style="font-family:'JetBrains Mono',monospace;color:#c4b5fd;">search_web</span>
+              <div style="margin-left:auto;width:14px;height:14px;border:2px solid #818CF8;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;"></div>
+            </div>
+            <div class="demo-tool-body">{"query": "flutter state management"}</div>
+          </div>
+        </div>
       </div>
 
       <h2 id="usage">Usage</h2>
