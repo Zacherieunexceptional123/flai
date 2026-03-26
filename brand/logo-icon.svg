@@ -1,0 +1,10 @@
+<svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="flai-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+  </defs>
+  <path d="M256 51.2 L460.8 256 L368.6 348.2 L163.8 143.4 Z" fill="url(#flai-grad)" />
+  <path d="M143.4 163.8 L348.2 368.6 L256 460.8 L51.2 256 Z" fill="url(#flai-grad)" opacity="0.75" />
+</svg>

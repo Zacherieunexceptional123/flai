@@ -1,0 +1,37 @@
+<svg viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="flai-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F0F23" />
+      <stop offset="100%" stop-color="#1E1B4B" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#6366F1" stroke-width="0.3" opacity="0.12" />
+    </pattern>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="640" fill="url(#bg-grad)" />
+  <rect width="1280" height="640" fill="url(#grid)" />
+  <!-- Centered layout -->
+  <!-- Icon -->
+  <g transform="translate(370, 100)">
+    <path d="M100 20 L180 100 L144 136 L64 56 Z" fill="url(#flai-grad)" />
+    <path d="M56 64 L136 144 L100 180 L20 100 Z" fill="url(#flai-grad)" opacity="0.75" />
+    <!-- Wordmark inline -->
+    <text x="220" y="120" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="80" font-weight="700" letter-spacing="-2" fill="#F8FAFC">flai</text>
+  </g>
+  <!-- Description -->
+  <text x="640" y="370" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#E2E8F0">Beautiful AI chat components for Flutter</text>
+  <!-- Features row -->
+  <text x="640" y="420" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#94A3B8">Streaming  ·  Markdown  ·  Tool Calls  ·  Themes  ·  Own Your Code</text>
+  <!-- Install command -->
+  <rect x="400" y="460" width="480" height="50" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1" opacity="0.8" />
+  <text x="640" y="492" text-anchor="middle" font-family="'SF Mono', 'Fira Code', 'JetBrains Mono', monospace" font-size="18" font-weight="500" fill="#A5B4FC">dart pub global activate flai_cli</text>
+  <!-- URL -->
+  <text x="640" y="570" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="500" fill="#6366F1">getflai.dev</text>
+  <!-- Badge style indicator -->
+  <text x="640" y="605" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" letter-spacing="3" fill="#64748B">OPEN SOURCE · MIT LICENSE</text>
+</svg>

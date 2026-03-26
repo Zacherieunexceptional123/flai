@@ -1,0 +1,7 @@
+<svg viewBox="0 0 360 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon -->
+  <path d="M50 10 L90 50 L72 68 L32 28 Z" fill="#0F0F23" />
+  <path d="M28 32 L68 72 L50 90 L10 50 Z" fill="#0F0F23" opacity="0.75" />
+  <!-- Wordmark -->
+  <text x="110" y="68" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="56" font-weight="700" letter-spacing="-1" fill="#0F0F23">flai</text>
+</svg>
