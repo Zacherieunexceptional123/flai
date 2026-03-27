@@ -14,7 +14,7 @@ bricks/                          Mason brick templates (one per component)
   chat_experience/               Composer v2, voice, model selector, ghost mode, empty state
   sidebar_nav/                   Drawer, conversation list, search, settings sheet
   app_scaffold/                  Production-ready shell wiring all 4 flows with GoRouter
-  cmmd_providers/                CMMD API backend implementation (hidden, via `flai connect cmmd`)
+  cmmd_providers/                CMMD API backend implementation (installed via `flai connect cmmd`)
   message_bubble/                Message bubble with markdown, thinking, citations
   streaming_text/                Token-by-token text rendering with cursor
   typing_indicator/              Animated loading dots
@@ -190,7 +190,7 @@ When Claude runs via `@claude` mentions on issues/PRs:
 - Link related issues with "Fixes #123" in PR body
 - Do not modify CI/CD config, secrets, or deployment files unless explicitly asked
 - Do not add new dependencies without explicit approval
-- Do not touch `bricks/cmmd_providers/` — that brick is private to the CMMD backend
+- When modifying `bricks/cmmd_providers/`, keep the example app in sync — this brick is the production CMMD backend and ships via `flai connect cmmd`
 
 ## Gotchas
 
