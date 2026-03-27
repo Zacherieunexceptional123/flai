@@ -25,7 +25,7 @@
       </div>
 
       <h1 class="page-title">App Scaffold</h1>
-      <p class="page-desc">Production app shell wiring auth, onboarding, chat, and sidebar flows with GoRouter. One command installs everything.</p>
+      <p class="page-desc">Production app shell wiring auth, onboarding, chat, and sidebar flows with GoRouter. One command installs everything and generates a ready-to-run <code>main.dart</code>.</p>
 
       <h2 id="installation">Installation</h2>
       <div class="install-cmd">
@@ -36,47 +36,149 @@
           Copy
         </button>
       </div>
+      <p>This single command installs 7 bricks, adds pub dependencies (<code>go_router</code>, <code>flutter_secure_storage</code>, <code>share_plus</code>, <code>flutter_markdown</code>, <code>markdown</code>, <code>image_picker</code>, <code>file_picker</code>), and auto-generates <code>lib/main.dart</code>.</p>
 
       <h2 id="what-gets-installed">What Gets Installed</h2>
-      <p>Running <code>flai add app_scaffold</code> auto-installs 5 bricks and the <code>go_router</code> dependency:</p>
+      <p>Running <code>flai add app_scaffold</code> resolves the full dependency tree and installs 7 bricks in order:</p>
       <div class="dep-list">
         <span class="dep-chip"><span class="dep-icon"></span> auth_flow</span>
         <span class="dep-chip"><span class="dep-icon"></span> onboarding_flow</span>
         <span class="dep-chip"><span class="dep-icon"></span> chat_experience</span>
         <span class="dep-chip"><span class="dep-icon"></span> sidebar_nav</span>
+        <span class="dep-chip"><span class="dep-icon"></span> message_bubble</span>
+        <span class="dep-chip"><span class="dep-icon"></span> typing_indicator</span>
         <span class="dep-chip"><span class="dep-icon"></span> app_scaffold</span>
       </div>
       <p>The full dependency tree:</p>
 
 <pre><code class="language-dart">// app_scaffold
-//   ├── auth_flow
-//   ├── onboarding_flow
-//   ├── chat_experience
-//   ├── sidebar_nav
-//   └── go_router (added to pubspec.yaml)</code></pre>
+//   ├── auth_flow           (6 auth screens + AuthController)
+//   ├── onboarding_flow     (splash, naming, multi-select, reveal)
+//   ├── chat_experience     (composer v2, voice, model selector, attachments)
+//   ├── sidebar_nav         (drawer, conversation list, settings sheet)
+//   ├── message_bubble      (markdown rendering, code blocks, thinking panels)
+//   ├── typing_indicator    (animated loading dots)
+//   ├── go_router           (added to pubspec.yaml)
+//   ├── flutter_secure_storage  (session persistence)
+//   └── share_plus          (conversation sharing)</code></pre>
 
-      <h2 id="architecture">Architecture</h2>
-      <p><code>FlaiApp</code> is a <code>StatefulWidget</code> that sets up the entire app shell with GoRouter navigation:</p>
+      <p>After installation, the CLI also generates <code>lib/main.dart</code> using values from your <code>flai.yaml</code> (app name, assistant name, theme). The app is ready to run immediately with <code>MockAuthProvider</code>.</p>
 
-<pre><code class="language-dart">// FlaiApp
-//   └── FlaiProviders (InheritedWidget)
-//       └── FlaiTheme
-//           └── MaterialApp.router
-//               └── GoRouter
-//                   ├── /splash     → SplashScreen
-//                   ├── /auth       → AuthFlowScreen
-//                   ├── /onboarding → OnboardingFlowScreen
-//                   └── /home       → HomeScreen (chat + sidebar)</code></pre>
+      <h2 id="what-you-get">What You Get</h2>
+      <p>A complete, production-ready AI chat app with every screen and interaction wired together:</p>
 
-      <p>Auth state redirects are handled by <code>AuthStateNotifier</code>, which listens to <code>AuthProvider.authStateChanges</code> and triggers GoRouter redirects:</p>
+      <h3>Auth Flow</h3>
       <ul>
-        <li>Unauthenticated users are redirected to <code>/auth</code></li>
-        <li>New users (first login) are redirected to <code>/onboarding</code></li>
-        <li>Authenticated users land on <code>/home</code></li>
+        <li>6 screens: login landing, email entry, password entry, forgot password, verification code, reset password</li>
+        <li>Social login buttons (Apple, Google) with branded OAuth logos</li>
+        <li>AuthController state machine manages all transitions</li>
       </ul>
 
+      <h3>Onboarding</h3>
+      <ul>
+        <li>Splash screen with configurable logo</li>
+        <li>Naming step (name your assistant, with suggestions)</li>
+        <li>Multi-select pills (pick interests or capabilities)</li>
+        <li>Custom step support for app-specific screens</li>
+        <li>Reveal animation to transition into the main app</li>
+        <li>Set <code>onboardingConfig: null</code> to skip entirely</li>
+      </ul>
+
+      <h3>Chat Experience</h3>
+      <ul>
+        <li>Markdown rendering with code blocks and copy button</li>
+        <li>AI thinking panels (expandable reasoning display)</li>
+        <li>Animated send button (mic/arrow morph based on input state)</li>
+        <li>Attachment menu (camera, photo library, files) with thumbnail preview</li>
+        <li>Voice input via speech-to-text</li>
+        <li>Model selector bottom sheet (switch between AI models)</li>
+        <li>Scroll-to-bottom FAB when scrolled up</li>
+        <li>Regenerate response button on assistant messages</li>
+        <li>Haptic feedback on key actions (send, new chat, voice toggle)</li>
+        <li>Empty state with greeting when no conversation is active</li>
+      </ul>
+
+      <h3>Sidebar</h3>
+      <ul>
+        <li>Conversation list with date grouping (Today, Yesterday, Previous 7 Days, etc.)</li>
+        <li>Conversation actions: rename, star, share, delete</li>
+        <li>Share conversation via system share sheet</li>
+        <li>Settings sheet with configurable sections</li>
+        <li>Search across conversations</li>
+        <li>New chat button</li>
+      </ul>
+
+      <h3>Session Persistence</h3>
+      <ul>
+        <li>Auth tokens stored in iOS Keychain / Android Keystore via <code>flutter_secure_storage</code></li>
+        <li>Automatic session restore on app launch (no re-login needed)</li>
+        <li>Tokens are cleared on sign-out</li>
+      </ul>
+
+      <h2 id="auto-generated-main">Auto-Generated main.dart</h2>
+      <p>When you run <code>flai add app_scaffold</code>, the CLI reads your <code>flai.yaml</code> and generates a <code>lib/main.dart</code> that is ready to run. It uses <code>MockAuthProvider</code> so you can explore the entire UI without any backend:</p>
+
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+
+import 'flai/app_scaffold.dart';
+import 'flai/core/theme/flai_theme.dart';
+import 'flai/flows/auth/mock_auth_provider.dart';
+import 'flai/flows/chat/chat_experience_config.dart';
+import 'flai/flows/sidebar/settings_config.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    FlaiApp(
+      config: AppScaffoldConfig(
+        appTitle: 'My App',
+        authProvider: MockAuthProvider(),
+        theme: FlaiThemeData.dark(),
+        chatExperienceConfig: ChatExperienceConfig(
+          assistantName: 'Assistant',
+        ),
+        settingsConfig: SettingsConfig(
+          sections: [
+            SettingsSection(
+              title: 'Account',
+              rows: [
+                NavigationRow(
+                  icon: Icons.logout,
+                  label: 'Sign Out',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}</code></pre>
+
+      <p>The <code>appTitle</code>, <code>assistantName</code>, and <code>theme</code> values come from whatever you configured in <code>flai.yaml</code> during <code>flai init</code>.</p>
+
+      <h2 id="connect-backend">Connect a Backend</h2>
+      <p>The auto-generated <code>main.dart</code> uses <code>MockAuthProvider</code> for instant prototyping. To connect a real backend, run:</p>
+
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd-text">flai connect cmmd</span>
+        <button class="copy-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <p>This command:</p>
+      <ol>
+        <li>Generates CMMD provider implementations (<code>CmmdAuthProvider</code>, <code>CmmdAiProvider</code>, <code>CmmdStorageProvider</code>, <code>CmmdVoiceProvider</code>)</li>
+        <li>Adds backend dependencies (<code>http</code>, <code>sign_in_with_apple</code>, <code>google_sign_in</code>, <code>url_launcher</code>, <code>speech_to_text</code>)</li>
+        <li>Rewrites <code>lib/main.dart</code> to use the real CMMD providers instead of mocks</li>
+      </ol>
+      <p>After connecting, run <code>flutter pub get</code> then <code>flutter run</code>. You get authentication (email, Apple, Google), AI chat streaming, conversation persistence, and voice -- all wired to <a href="https://cmmd.ai">cmmd.ai</a>.</p>
+
       <h2 id="configuration">Configuration</h2>
-      <p><code>AppScaffoldConfig</code> composes all flow configurations into a single entry point:</p>
+      <p><code>AppScaffoldConfig</code> composes all provider and flow configurations into a single entry point:</p>
       <table class="props-table">
         <thead>
           <tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
@@ -86,58 +188,98 @@
             <td class="prop-name">authProvider</td>
             <td class="prop-type">AuthProvider</td>
             <td class="prop-required">required</td>
-            <td>Authentication provider implementation.</td>
+            <td>Authentication provider for sign-in, sign-up, and session management. The only required field.</td>
           </tr>
           <tr>
             <td class="prop-name">aiProvider</td>
             <td class="prop-type">AiProvider?</td>
             <td class="prop-default">null</td>
-            <td>AI chat streaming provider.</td>
+            <td>AI chat streaming provider. If null, the chat screen shows an "AI provider not configured" placeholder.</td>
           </tr>
           <tr>
             <td class="prop-name">storageProvider</td>
             <td class="prop-type">StorageProvider?</td>
             <td class="prop-default">InMemoryStorageProvider</td>
-            <td>Conversation persistence provider.</td>
+            <td>Conversation persistence provider. Falls back to in-memory storage so the app works during development.</td>
           </tr>
           <tr>
             <td class="prop-name">voiceProvider</td>
             <td class="prop-type">VoiceProvider?</td>
             <td class="prop-default">null</td>
-            <td>Voice transcription and synthesis provider.</td>
+            <td>Voice transcription and synthesis provider. If null, voice features are disabled regardless of <code>ChatExperienceConfig.enableVoice</code>.</td>
           </tr>
           <tr>
             <td class="prop-name">theme</td>
-            <td class="prop-type">FlaiThemeData</td>
+            <td class="prop-type">FlaiThemeData?</td>
             <td class="prop-default">FlaiThemeData.dark()</td>
-            <td>Theme data applied to the entire app.</td>
+            <td>Theme data applied to the entire app. 4 built-in presets: <code>dark()</code>, <code>light()</code>, <code>ios()</code>, <code>premium()</code>.</td>
           </tr>
           <tr>
             <td class="prop-name">authFlowConfig</td>
-            <td class="prop-type">AuthFlowConfig?</td>
-            <td class="prop-default">null</td>
-            <td>Configuration for the auth flow screens.</td>
+            <td class="prop-type">AuthFlowConfig</td>
+            <td class="prop-default">AuthFlowConfig()</td>
+            <td>Configuration for auth flow screens (social providers, branding, legal links).</td>
           </tr>
           <tr>
             <td class="prop-name">onboardingConfig</td>
             <td class="prop-type">OnboardingConfig?</td>
             <td class="prop-default">null</td>
-            <td>Configuration for the onboarding pipeline.</td>
+            <td>Configuration for the post-auth onboarding flow. If null, onboarding is skipped and users go straight to the chat.</td>
           </tr>
           <tr>
             <td class="prop-name">chatExperienceConfig</td>
-            <td class="prop-type">ChatExperienceConfig?</td>
-            <td class="prop-default">null</td>
-            <td>Configuration for the chat experience widgets.</td>
+            <td class="prop-type">ChatExperienceConfig</td>
+            <td class="prop-default">ChatExperienceConfig()</td>
+            <td>Configuration for the chat experience (assistant name, composer options, model selector, feature flags).</td>
           </tr>
           <tr>
             <td class="prop-name">sidebarConfig</td>
             <td class="prop-type">SidebarConfig?</td>
             <td class="prop-default">null</td>
-            <td>Configuration for the sidebar navigation.</td>
+            <td>Configuration for the sidebar navigation drawer. If null, uses a minimal default with the app title.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">settingsConfig</td>
+            <td class="prop-type">SettingsConfig</td>
+            <td class="prop-default">SettingsConfig()</td>
+            <td>Configuration for the settings sheet (sections, toggles, info items).</td>
+          </tr>
+          <tr>
+            <td class="prop-name">appTitle</td>
+            <td class="prop-type">String</td>
+            <td class="prop-default">'FlAI Chat'</td>
+            <td>Application title shown in the OS task switcher.</td>
+          </tr>
+          <tr>
+            <td class="prop-name">showSplash</td>
+            <td class="prop-type">bool</td>
+            <td class="prop-default">true</td>
+            <td>Whether to show a splash screen before the auth flow. Set to <code>false</code> to skip straight to login.</td>
           </tr>
         </tbody>
       </table>
+
+      <h2 id="architecture">Architecture</h2>
+      <p><code>FlaiApp</code> is a <code>StatefulWidget</code> that sets up the entire app shell. On launch it attempts to restore a persisted auth session from secure storage so the user stays logged in between app restarts:</p>
+
+<pre><code class="language-dart">// FlaiApp (StatefulWidget — restores session, builds provider tree)
+//   └── FlaiTheme (InheritedWidget — theme data)
+//       └── FlaiProviders (InheritedWidget — 4 provider interfaces)
+//           └── MaterialApp.router
+//               └── GoRouter (AuthStateNotifier triggers redirects)
+//                   ├── /splash      → SplashScreen
+//                   ├── /auth        → AuthFlowScreen (6 screens via AuthController)
+//                   ├── /onboarding  → OnboardingFlowScreen (step state machine)
+//                   └── /            → HomeScreen (sidebar + chat content)</code></pre>
+
+      <p>Auth state redirects are handled by <code>AuthStateNotifier</code>, which listens to <code>AuthProvider.authStateChanges</code> and triggers GoRouter redirects:</p>
+      <ul>
+        <li>Unauthenticated users are redirected to <code>/auth</code></li>
+        <li>Newly authenticated users go to <code>/onboarding</code> (if configured) or <code>/</code></li>
+        <li>Authenticated users with a restored session land on <code>/</code> (home) directly</li>
+      </ul>
+
+      <p>The home route creates a <code>HomeController</code> that bridges all 4 providers to the UI. It handles conversation loading, message sending/streaming, starring, renaming, sharing, and deletion -- the developer only provides the backend provider implementations.</p>
 
       <h2 id="providers">Providers</h2>
       <p><code>FlaiProviders</code> is an <code>InheritedWidget</code> that exposes all 4 provider interfaces from anywhere in the widget tree:</p>
@@ -151,23 +293,54 @@ providers.storageProvider;  // StorageProvider
 providers.voiceProvider;    // VoiceProvider?</code></pre>
 
       <h2 id="usage">Usage</h2>
+      <p>The auto-generated <code>main.dart</code> is the recommended starting point. Customize it by adding providers, adjusting configs, or swapping the theme:</p>
 
-<pre><code class="language-dart">void main() {
-  runApp(FlaiApp(
-    config: AppScaffoldConfig(
-      authProvider: MyAuthProvider(),
-      aiProvider: MyAiProvider(),
-      theme: FlaiThemeData.dark(),
-      authFlowConfig: AuthFlowConfig(
-        showApple: true,
-        showGoogle: true,
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+
+import 'flai/app_scaffold.dart';
+import 'flai/core/theme/flai_theme.dart';
+import 'flai/flows/auth/mock_auth_provider.dart';
+import 'flai/flows/chat/chat_experience_config.dart';
+import 'flai/flows/sidebar/settings_config.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    FlaiApp(
+      config: AppScaffoldConfig(
+        appTitle: 'My App',
+        authProvider: MockAuthProvider(),
+        aiProvider: myAiProvider,       // add your AI provider
+        storageProvider: myStorage,     // add your storage provider
+        voiceProvider: myVoice,         // add your voice provider
+        theme: FlaiThemeData.dark(),
+        chatExperienceConfig: ChatExperienceConfig(
+          assistantName: 'Atlas',
+          availableModels: [
+            ModelOption(
+              id: 'claude-sonnet-4-20250514',
+              name: 'Claude Sonnet',
+              description: 'Fast and intelligent',
+              icon: Icons.bolt_rounded,
+            ),
+          ],
+        ),
+        settingsConfig: SettingsConfig(
+          sections: [
+            SettingsSection(
+              title: 'Account',
+              rows: [
+                NavigationRow(
+                  icon: Icons.logout,
+                  label: 'Sign Out',
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-      onboardingConfig: OnboardingConfig(steps: [
-        OnboardingStep.naming(suggestions: ['Nova', 'Atlas']),
-        OnboardingStep.reveal(),
-      ]),
     ),
-  ));
+  );
 }</code></pre>
 
       <div class="page-nav">
