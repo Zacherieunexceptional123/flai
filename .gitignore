@@ -65,3 +65,16 @@ _test_output/
 # Environment
 .env
 .env.*
+
+# Internal operations (never commit)
+AGENT-*.md
+CEO-*.md
+mac-mini-*.md
+*-PLAYBOOK.md
+*-HANDOFF.md
+*.xlsx
+flai-social-card.html
+x-thread-*.md
+
+# Internal planning
+docs/superpowers/

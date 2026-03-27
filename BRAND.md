@@ -6,7 +6,7 @@
 
 **Product:** FlAI (pronounced "fly")
 **Website:** getflai.dev
-**GitHub:** github.com/FlutterAiChat/flutter-ai-chat-components
+**GitHub:** github.com/getflai-dev/flai
 **Tagline:** shadcn/ui for Flutter AI chat
 **One-liner:** Drop-in AI chat components for Flutter. You own the source code.
 
